@@ -1,4 +1,4 @@
-PROJECT_NAME := "PLACEHOLDER"
+PROJECT_NAME := "alfred-jira-search"
 PKG := "github.com/rwilgaard/$(PROJECT_NAME)"
 GO111MODULE=on
 
