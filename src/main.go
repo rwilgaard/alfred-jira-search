@@ -1,14 +1,20 @@
 package main
 
 import (
-	"github.com/andygrunwald/go-jira"
-	aw "github.com/deanishe/awgo"
-	"github.com/deanishe/awgo/update"
+    "log"
+    "time"
+    "os"
+    "os/exec"
+
+    "github.com/andygrunwald/go-jira"
+    aw "github.com/deanishe/awgo"
+    "github.com/deanishe/awgo/update"
 )
 
 type workflowConfig struct {
     URL      string `env:"jira_url"`
     Username string `env:"username"`
+    AltIcons bool   `env:"alt_icons"`
     APIToken string
 }
 
@@ -19,11 +25,11 @@ const (
 )
 
 var (
-    wf          *aw.Workflow
-    cfg         *workflowConfig
-    // cacheName   = "projects.json"
-    // maxCacheAge = 24 * time.Hour
-    // spaceCache  []
+    wf           *aw.Workflow
+    cfg          *workflowConfig
+    cacheName    = "projects.json"
+    maxCacheAge  = 24 * time.Hour
+    projectCache []Project
 )
 
 func init() {
@@ -47,6 +53,25 @@ func run() {
         runAuth()
     }
 
+    if opts.Projects {
+        runProjects()
+        if len(opts.Query) > 0 {
+            wf.Filter(opts.Query)
+        }
+        wf.SendFeedback()
+        return
+    }
+
+    if a := autocomplete(opts.Query); a != "" {
+        if err := wf.Cache.StoreJSON("prev_query", opts.Query); err != nil {
+            wf.FatalError(err)
+        }
+        if err := wf.Alfred.RunTrigger(a, ""); err != nil {
+            wf.FatalError(err)
+        }
+        return
+    }
+
     token, err := wf.Keychain.Get(keychainAccount)
     if err != nil {
         wf.NewItem("You're not logged in.").
@@ -60,13 +85,40 @@ func run() {
     cfg.APIToken = token
 
     tp := jira.BasicAuthTransport{
-		Username: cfg.Username,
-		Password: cfg.APIToken,
-	}
+        Username: cfg.Username,
+        Password: cfg.APIToken,
+    }
 
     api, err := jira.NewClient(tp.Client(), cfg.URL)
     if err != nil {
         wf.FatalError(err)
+    }
+
+    if opts.Cache {
+        wf.Configure(aw.TextErrors(true))
+        log.Println("[main] fetching projects...")
+        projects, err := getProjects(api)
+        if err != nil {
+            wf.FatalError(err)
+        }
+        if err := wf.Cache.StoreJSON(cacheName, projects); err != nil {
+            wf.FatalError(err)
+        }
+        log.Println("[main] cached projects")
+        return
+    }
+
+    if wf.Cache.Expired(cacheName, maxCacheAge) {
+        wf.Rerun(0.3)
+        if !wf.IsRunning("cache") {
+            log.Println("[main] fetching projects...")
+            cmd := exec.Command(os.Args[0], "-cache")
+            if err := wf.RunInBackground("cache", cmd); err != nil {
+                wf.FatalError(err)
+            } else {
+                log.Printf("cache job already running.")
+            }
+        }
     }
 
     runSearch(api)

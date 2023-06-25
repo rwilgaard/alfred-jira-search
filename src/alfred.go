@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"regexp"
 
 	"github.com/andygrunwald/go-jira"
 	"github.com/ncruces/zenity"
@@ -21,15 +20,7 @@ func runAuth() {
 }
 
 func runSearch(api *jira.Client) {
-    var jql string
-    issueKeyRegex := regexp.MustCompile("^[a-zA-Z]+-[0-9]+$")
-
-    if issueKeyRegex.MatchString(opts.Query) {
-        jql = fmt.Sprintf("key = '%s'", opts.Query)
-    } else {
-        jql = fmt.Sprintf("text ~ '%s'", opts.Query)
-    }
-
+    jql, _ := parseQuery(opts.Query)
     issues, err := getIssues(api, jql) 
     if err != nil {
         wf.FatalError(err)
@@ -41,6 +32,32 @@ func runSearch(api *jira.Client) {
             Subtitle(fmt.Sprintf("%s  •  %s", issue.Fields.Status.Name, issue.Fields.Summary)).
             Var("issuekey", issue.Key).
             Var("item_url", fmt.Sprintf("%s/browse/%s", cfg.URL, issue.Key)).
+            Icon(getIcon(issue.Fields.Type.Name)).
+            Valid(true)
+    }
+}
+
+func runProjects() {
+    if wf.Cache.Exists(cacheName) {
+        if err := wf.Cache.LoadJSON(cacheName, &projectCache); err != nil {
+            wf.FatalError(err)
+        }
+    }
+
+    var prevQuery string
+    if err := wf.Cache.LoadJSON("prev_query", &prevQuery); err != nil {
+        wf.FatalError(err)
+    }
+
+    wf.NewItem("Cancel").
+        Arg("cancel").
+        Valid(true)
+
+    for _, s := range projectCache {
+        wf.NewItem(s.Key).
+            Match(fmt.Sprintf("%s %s", s.Key, s.Name)).
+            Subtitle(s.Name).
+            Arg(prevQuery + s.Key + " ").
             Valid(true)
     }
 }
