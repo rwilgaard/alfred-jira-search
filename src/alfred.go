@@ -37,7 +37,7 @@ func runSearch(api *jira.Client) {
     }
 }
 
-func runProjects() {
+func runGetProjects() {
     if wf.Cache.Exists(cacheName) {
         if err := wf.Cache.LoadJSON(cacheName, &projectCache); err != nil {
             wf.FatalError(err)
@@ -58,6 +58,31 @@ func runProjects() {
             Match(fmt.Sprintf("%s %s", s.Key, s.Name)).
             Subtitle(s.Name).
             Arg(prevQuery + s.Key + " ").
+            Var("project", s.Key).
+            Valid(true)
+    }
+}
+
+func runGetIssuetypes() {
+    if wf.Cache.Exists(issuetypesCacheName) {
+        if err := wf.Cache.LoadJSON(issuetypesCacheName, &issuetypeCache); err != nil {
+            wf.FatalError(err)
+        }
+    }
+
+    var prevQuery string
+    if err := wf.Cache.LoadJSON("prev_query", &prevQuery); err != nil {
+        wf.FatalError(err)
+    }
+
+    wf.NewItem("Cancel").
+        Arg("cancel").
+        Valid(true)
+
+    for _, i := range issuetypeCache {
+        wf.NewItem(i.Name).
+            Arg(prevQuery + i.Name + " ").
+            Var("issuetype", i.Name).
             Valid(true)
     }
 }

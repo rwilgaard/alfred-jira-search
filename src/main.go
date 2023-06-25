@@ -2,9 +2,9 @@ package main
 
 import (
     "log"
-    "time"
     "os"
     "os/exec"
+    "time"
 
     "github.com/andygrunwald/go-jira"
     aw "github.com/deanishe/awgo"
@@ -25,11 +25,13 @@ const (
 )
 
 var (
-    wf           *aw.Workflow
-    cfg          *workflowConfig
-    cacheName    = "projects.json"
-    maxCacheAge  = 24 * time.Hour
-    projectCache []Project
+    wf                  *aw.Workflow
+    cfg                 *workflowConfig
+    cacheName           = "projects.json"
+    issuetypesCacheName = "issuetypes.json"
+    maxCacheAge         = 24 * time.Hour
+    projectCache        []Project
+    issuetypeCache      []Issuetype
 )
 
 func init() {
@@ -53,8 +55,17 @@ func run() {
         runAuth()
     }
 
-    if opts.Projects {
-        runProjects()
+    if opts.GetProjects {
+        runGetProjects()
+        if len(opts.Query) > 0 {
+            wf.Filter(opts.Query)
+        }
+        wf.SendFeedback()
+        return
+    }
+
+    if opts.GetIssuetypes {
+        runGetIssuetypes()
         if len(opts.Query) > 0 {
             wf.Filter(opts.Query)
         }
@@ -105,13 +116,23 @@ func run() {
             wf.FatalError(err)
         }
         log.Println("[main] cached projects")
+
+        log.Println("[main] fetching issuetypes...")
+        issuetypes, err := getIssuetypes(api)
+        if err != nil {
+            wf.FatalError(err)
+        }
+        if err := wf.Cache.StoreJSON(issuetypesCacheName, issuetypes); err != nil {
+            wf.FatalError(err)
+        }
+        log.Println("[main] cached issuetypes")
         return
     }
 
     if wf.Cache.Expired(cacheName, maxCacheAge) {
         wf.Rerun(0.3)
         if !wf.IsRunning("cache") {
-            log.Println("[main] fetching projects...")
+            log.Println("[main] refreshing cache...")
             cmd := exec.Command(os.Args[0], "-cache")
             if err := wf.RunInBackground("cache", cmd); err != nil {
                 wf.FatalError(err)
@@ -119,6 +140,11 @@ func run() {
                 log.Printf("cache job already running.")
             }
         }
+    }
+
+    if opts.Create {
+        log.Printf("%s %s %s", opts.Query, opts.Issuetype, opts.Project)
+        return
     }
 
     runSearch(api)

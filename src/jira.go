@@ -15,6 +15,11 @@ type Project struct {
     Name string
 }
 
+type Issuetype struct {
+    Id   string `json:"id"`
+    Name string `json:"name"`
+}
+
 func autocomplete(query string) string {
     for _, w := range strings.Split(query, " ") {
         switch w {
@@ -137,4 +142,16 @@ func getProjects(api *jira.Client) ([]Project, error) {
     }
 
     return projects, nil
+}
+
+func getIssuetypes(api *jira.Client) (*[]Issuetype, error) {
+    issuetypes := new([]Issuetype)
+
+    req, _ := api.NewRequest("GET", "/rest/api/2/issuetype", nil)
+    _, err := api.Do(req, issuetypes)
+    if err != nil {
+        return nil, err
+    }
+
+    return issuetypes, nil
 }
