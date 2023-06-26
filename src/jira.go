@@ -155,3 +155,30 @@ func getIssuetypes(api *jira.Client) (*[]Issuetype, error) {
 
     return issuetypes, nil
 }
+
+func createIssue(api *jira.Client, summary string, issuetype string, project string) error {
+    i := jira.Issue{
+        Fields: &jira.IssueFields{
+            Assignee: &jira.User{
+                Name: cfg.Username,
+            },
+            Reporter: &jira.User{
+                Name: cfg.Username,
+            },
+            Type: jira.IssueType{
+                Name: issuetype,
+            },
+            Project: jira.Project{
+                Key: project,
+            },
+            Summary: summary,
+        },
+    }
+
+    _, _, err := api.Issue.Create(&i)
+    if err != nil {
+        return err
+    }
+
+    return nil
+}

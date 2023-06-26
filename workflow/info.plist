@@ -43,16 +43,6 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>A399A2E0-A58B-41EA-ACDE-9011D61C1625</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
 		</array>
 		<key>2879D4E8-09BD-4605-A285-EAD5B8D60FED</key>
 		<array>
@@ -363,7 +353,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./alfred-jira-search -create "$summary" -project "$project" -issuetype "$issuetype"</string>
+				<string>./alfred-jira-search -create -project "$project" -issuetype "$issuetype" "$summary"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -501,23 +491,6 @@
 				<key>passthroughargument</key>
 				<false/>
 				<key>variables</key>
-				<dict/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>12944EE4-9AB1-4F66-B805-0BB07A2336EC</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string></string>
-				<key>passthroughargument</key>
-				<false/>
-				<key>variables</key>
 				<dict>
 					<key>summary</key>
 					<string>{query}</string>
@@ -543,7 +516,7 @@
 			<key>type</key>
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
-			<string>3B2EC56D-413E-4830-A42C-B40AB7DF65CA</string>
+			<string>12944EE4-9AB1-4F66-B805-0BB07A2336EC</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -551,16 +524,16 @@
 			<key>config</key>
 			<dict>
 				<key>argument</key>
-				<string>'{query}', {variables}</string>
-				<key>cleardebuggertext</key>
+				<string></string>
+				<key>passthroughargument</key>
 				<false/>
-				<key>processoutputs</key>
-				<true/>
+				<key>variables</key>
+				<dict/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.debug</string>
+			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
-			<string>A399A2E0-A58B-41EA-ACDE-9011D61C1625</string>
+			<string>3B2EC56D-413E-4830-A42C-B40AB7DF65CA</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -784,7 +757,7 @@
 		<key>17C07C21-0CDF-4C95-AF94-2A06AB632410</key>
 		<dict>
 			<key>xpos</key>
-			<real>860</real>
+			<real>765</real>
 			<key>ypos</key>
 			<real>305</real>
 		</dict>
@@ -842,13 +815,6 @@
 			<real>530</real>
 			<key>ypos</key>
 			<real>45</real>
-		</dict>
-		<key>A399A2E0-A58B-41EA-ACDE-9011D61C1625</key>
-		<dict>
-			<key>xpos</key>
-			<real>775</real>
-			<key>ypos</key>
-			<real>415</real>
 		</dict>
 		<key>A5A6D02D-1038-4DFE-9EE2-F33A209C4A59</key>
 		<dict>

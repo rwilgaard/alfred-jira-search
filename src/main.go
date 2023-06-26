@@ -143,7 +143,9 @@ func run() {
     }
 
     if opts.Create {
-        log.Printf("%s %s %s", opts.Query, opts.Issuetype, opts.Project)
+        if err := createIssue(api, opts.Query, opts.Issuetype, opts.Project); err != nil {
+            wf.FatalError(err)
+        }
         return
     }
 
