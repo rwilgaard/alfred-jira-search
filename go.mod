@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/andygrunwald/go-jira v1.16.0
 	github.com/deanishe/awgo v0.29.1
-	github.com/lithammer/fuzzysearch v1.1.6
+	github.com/lithammer/fuzzysearch v1.1.8
 	github.com/ncruces/zenity v0.10.9
 )
 
