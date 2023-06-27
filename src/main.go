@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "log"
     "os"
     "os/exec"
@@ -9,6 +10,7 @@ import (
     "github.com/andygrunwald/go-jira"
     aw "github.com/deanishe/awgo"
     "github.com/deanishe/awgo/update"
+    "github.com/ncruces/zenity"
 )
 
 type workflowConfig struct {
@@ -20,8 +22,8 @@ type workflowConfig struct {
 
 const (
     repo            = "rwilgaard/alfred-jira-search"
-    updateJobName   = "checkForUpdates"
     keychainAccount = "alfred-jira-search"
+    // updateJobName   = "checkForUpdates"
 )
 
 var (
@@ -143,9 +145,11 @@ func run() {
     }
 
     if opts.Create {
-        if err := createIssue(api, opts.Query, opts.Issuetype, opts.Project); err != nil {
+        issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Project)
+        if err != nil {
             wf.FatalError(err)
         }
+        zenity.Notify(fmt.Sprintf("%s created!", issueKey), zenity.Title("Jira Search"), zenity.Icon(fmt.Sprintf("%s/icon.png", wf.Dir())))
         return
     }
 

@@ -1,13 +1,13 @@
 package main
 
 import (
-    "fmt"
-    "regexp"
-    "strings"
+	"fmt"
+	"regexp"
+	"strings"
 
-    "github.com/andygrunwald/go-jira"
-    aw "github.com/deanishe/awgo"
-    "github.com/lithammer/fuzzysearch/fuzzy"
+	"github.com/andygrunwald/go-jira"
+	aw "github.com/deanishe/awgo"
+	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 type Project struct {
@@ -156,7 +156,7 @@ func getIssuetypes(api *jira.Client) (*[]Issuetype, error) {
     return issuetypes, nil
 }
 
-func createIssue(api *jira.Client, summary string, issuetype string, project string) error {
+func createIssue(api *jira.Client, summary string, issuetype string, project string) (issueKey string, error error) {
     i := jira.Issue{
         Fields: &jira.IssueFields{
             Assignee: &jira.User{
@@ -175,10 +175,10 @@ func createIssue(api *jira.Client, summary string, issuetype string, project str
         },
     }
 
-    _, _, err := api.Issue.Create(&i)
+    issue, _, err := api.Issue.Create(&i)
     if err != nil {
-        return err
+        return "", err
     }
 
-    return nil
+    return issue.Key, nil
 }

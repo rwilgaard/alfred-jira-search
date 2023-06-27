@@ -81,7 +81,6 @@ func runGetIssuetypes() {
 
     for _, i := range issuetypeCache {
         wf.NewItem(i.Name).
-            UID(i.Name).
             Arg(prevQuery + i.Name + " ").
             Var("issuetype", i.Name).
             Valid(true)
