@@ -11,13 +11,8 @@ import (
 )
 
 type Project struct {
-    Key  string
-    Name string
-}
-
-type Issuetype struct {
-    Id   string `json:"id"`
-    Name string `json:"name"`
+    Key        string
+    Name       string
 }
 
 func autocomplete(query string) string {
@@ -144,17 +139,19 @@ func getProjects(api *jira.Client) ([]Project, error) {
     return projects, nil
 }
 
-func getIssuetypes(api *jira.Client) (*[]Issuetype, error) {
-    issuetypes := new([]Issuetype)
+func getIssuetypes(api *jira.Client, projectKey string) ([]jira.IssueType, error) {
+    project := new(jira.Project)
 
-    req, _ := api.NewRequest("GET", "/rest/api/2/issuetype", nil)
-    _, err := api.Do(req, issuetypes)
+    req, _ := api.NewRequest("GET", fmt.Sprintf("/rest/api/2/project/%s", projectKey), nil)
+    _, err := api.Do(req, project)
     if err != nil {
         return nil, err
     }
 
-    return issuetypes, nil
+    return project.IssueTypes, nil
 }
+
+
 
 func createIssue(api *jira.Client, summary string, issuetype string, project string) (issueKey string, error error) {
     i := jira.Issue{

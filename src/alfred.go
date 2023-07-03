@@ -63,13 +63,7 @@ func runGetProjects() {
     }
 }
 
-func runGetIssuetypes() {
-    if wf.Cache.Exists(issuetypesCacheName) {
-        if err := wf.Cache.LoadJSON(issuetypesCacheName, &issuetypeCache); err != nil {
-            wf.FatalError(err)
-        }
-    }
-
+func runGetIssuetypes(api *jira.Client, projectKey string) {
     var prevQuery string
     if err := wf.Cache.LoadJSON("prev_query", &prevQuery); err != nil {
         wf.FatalError(err)
@@ -79,7 +73,12 @@ func runGetIssuetypes() {
         Arg("cancel").
         Valid(true)
 
-    for _, i := range issuetypeCache {
+    issuetypes, err := getIssuetypes(api, projectKey)
+    if err != nil {
+        wf.FatalError(err)
+    }
+
+    for _, i := range issuetypes {
         wf.NewItem(i.Name).
             Arg(prevQuery + i.Name + " ").
             Var("issuetype", i.Name).

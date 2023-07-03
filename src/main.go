@@ -1,16 +1,15 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "os"
-    "os/exec"
-    "time"
+	"fmt"
+	"log"
+	"os"
+	"os/exec"
+	"time"
 
-    "github.com/andygrunwald/go-jira"
-    aw "github.com/deanishe/awgo"
-    "github.com/deanishe/awgo/update"
-    "github.com/ncruces/zenity"
+	"github.com/andygrunwald/go-jira"
+	aw "github.com/deanishe/awgo"
+	"github.com/deanishe/awgo/update"
 )
 
 type workflowConfig struct {
@@ -30,10 +29,8 @@ var (
     wf                  *aw.Workflow
     cfg                 *workflowConfig
     cacheName           = "projects.json"
-    issuetypesCacheName = "issuetypes.json"
     maxCacheAge         = 24 * time.Hour
     projectCache        []Project
-    issuetypeCache      []Issuetype
 )
 
 func init() {
@@ -59,15 +56,6 @@ func run() {
 
     if opts.GetProjects {
         runGetProjects()
-        if len(opts.Query) > 0 {
-            wf.Filter(opts.Query)
-        }
-        wf.SendFeedback()
-        return
-    }
-
-    if opts.GetIssuetypes {
-        runGetIssuetypes()
         if len(opts.Query) > 0 {
             wf.Filter(opts.Query)
         }
@@ -107,6 +95,13 @@ func run() {
         wf.FatalError(err)
     }
 
+    if opts.GetIssuetypes {
+        runGetIssuetypes(api, opts.Project)
+        wf.SendFeedback()
+        return
+    }
+
+
     if opts.Cache {
         wf.Configure(aw.TextErrors(true))
         log.Println("[main] fetching projects...")
@@ -118,16 +113,6 @@ func run() {
             wf.FatalError(err)
         }
         log.Println("[main] cached projects")
-
-        log.Println("[main] fetching issuetypes...")
-        issuetypes, err := getIssuetypes(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(issuetypesCacheName, issuetypes); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached issuetypes")
         return
     }
 
@@ -150,12 +135,10 @@ func run() {
             wf.FatalError(err)
         }
 
-        err = zenity.Notify(fmt.Sprintf("%s created!", issueKey),
-            zenity.Title("Jira Search"),
-            zenity.Icon(fmt.Sprintf("%s/icon.png", wf.Dir())),
-        )
-        if err != nil {
-            wf.FatalError(err)
+        av := aw.NewArgVars()
+        av.Var("message", fmt.Sprintf("%s created!", issueKey))
+        if err := av.Send(); err != nil {
+            panic(err)
         }
 
         return
