@@ -149,7 +149,15 @@ func run() {
         if err != nil {
             wf.FatalError(err)
         }
-        zenity.Notify(fmt.Sprintf("%s created!", issueKey), zenity.Title("Jira Search"), zenity.Icon(fmt.Sprintf("%s/icon.png", wf.Dir())))
+
+        err = zenity.Notify(fmt.Sprintf("%s created!", issueKey),
+            zenity.Title("Jira Search"),
+            zenity.Icon(fmt.Sprintf("%s/icon.png", wf.Dir())),
+        )
+        if err != nil {
+            wf.FatalError(err)
+        }
+
         return
     }
 
