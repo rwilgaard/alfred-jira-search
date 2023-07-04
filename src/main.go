@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
-	"os/exec"
-	"time"
+    "fmt"
+    "log"
+    "os"
+    "os/exec"
+    "time"
 
-	"github.com/andygrunwald/go-jira"
-	aw "github.com/deanishe/awgo"
-	"github.com/deanishe/awgo/update"
+    "github.com/andygrunwald/go-jira"
+    aw "github.com/deanishe/awgo"
+    "github.com/deanishe/awgo/update"
 )
 
 type workflowConfig struct {
@@ -26,11 +26,13 @@ const (
 )
 
 var (
-    wf                  *aw.Workflow
-    cfg                 *workflowConfig
-    cacheName           = "projects.json"
-    maxCacheAge         = 24 * time.Hour
-    projectCache        []Project
+    wf                 *aw.Workflow
+    cfg                *workflowConfig
+    projectCacheName   = "projects.json"
+    issuetypeCacheName = "issuetypes.json"
+    maxCacheAge        = 24 * time.Hour
+    projectCache       []Project
+    issuetypeCache     []Issuetype
 )
 
 func init() {
@@ -64,10 +66,7 @@ func run() {
     }
 
     if a := autocomplete(opts.Query); a != "" {
-        if err := wf.Cache.StoreJSON("prev_query", opts.Query); err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Alfred.RunTrigger(a, ""); err != nil {
+        if err := wf.Alfred.RunTrigger(a, opts.Query); err != nil {
             wf.FatalError(err)
         }
         return
@@ -78,7 +77,7 @@ func run() {
         wf.NewItem("You're not logged in.").
             Subtitle("Press ⏎ to authenticate").
             Icon(aw.IconInfo).
-            Arg("auth").
+            Var("action", "auth").
             Valid(true)
         wf.SendFeedback()
         return
@@ -96,11 +95,17 @@ func run() {
     }
 
     if opts.GetIssuetypes {
-        runGetIssuetypes(api, opts.Project)
+        if opts.Project != "" {
+            runGetProjectIssuetypes(api, opts.Project)
+        } else {
+            runGetAllIssuetypes(api)
+            if opts.Query != "" {
+                wf.Filter(opts.Query)
+            }
+        }
         wf.SendFeedback()
         return
     }
-
 
     if opts.Cache {
         wf.Configure(aw.TextErrors(true))
@@ -109,14 +114,24 @@ func run() {
         if err != nil {
             wf.FatalError(err)
         }
-        if err := wf.Cache.StoreJSON(cacheName, projects); err != nil {
+        if err := wf.Cache.StoreJSON(projectCacheName, projects); err != nil {
             wf.FatalError(err)
         }
         log.Println("[main] cached projects")
+
+        log.Println("[main] fetching issuetypes...")
+        issuetypes, err := getAllIssuetypes(api)
+        if err != nil {
+            wf.FatalError(err)
+        }
+        if err := wf.Cache.StoreJSON(issuetypeCacheName, issuetypes); err != nil {
+            wf.FatalError(err)
+        }
+        log.Println("[main] cached issuetypes")
         return
     }
 
-    if wf.Cache.Expired(cacheName, maxCacheAge) {
+    if wf.Cache.Expired(projectCacheName, maxCacheAge) {
         wf.Rerun(0.3)
         if !wf.IsRunning("cache") {
             log.Println("[main] refreshing cache...")

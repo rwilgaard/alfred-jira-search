@@ -1,18 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"regexp"
-	"strings"
+    "fmt"
+    "regexp"
+    "strings"
 
-	"github.com/andygrunwald/go-jira"
-	aw "github.com/deanishe/awgo"
-	"github.com/lithammer/fuzzysearch/fuzzy"
+    "github.com/andygrunwald/go-jira"
+    aw "github.com/deanishe/awgo"
+    "github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 type Project struct {
-    Key        string
-    Name       string
+    Key  string
+    Name string
+}
+
+type Issuetype struct {
+    ID   string `json:"id"`
+    Name string `json:"name"`
 }
 
 func autocomplete(query string) string {
@@ -32,8 +37,8 @@ func autocomplete(query string) string {
 }
 
 func parseQuery(query string) (string, []string) {
-    if wf.Cache.Exists(cacheName) {
-        if err := wf.Cache.LoadJSON(cacheName, &projectCache); err != nil {
+    if wf.Cache.Exists(projectCacheName) {
+        if err := wf.Cache.LoadJSON(projectCacheName, &projectCache); err != nil {
             wf.FatalError(err)
         }
     }
@@ -139,7 +144,7 @@ func getProjects(api *jira.Client) ([]Project, error) {
     return projects, nil
 }
 
-func getIssuetypes(api *jira.Client, projectKey string) ([]jira.IssueType, error) {
+func getProjectIssuetypes(api *jira.Client, projectKey string) ([]jira.IssueType, error) {
     project := new(jira.Project)
 
     req, _ := api.NewRequest("GET", fmt.Sprintf("/rest/api/2/project/%s", projectKey), nil)
@@ -151,7 +156,17 @@ func getIssuetypes(api *jira.Client, projectKey string) ([]jira.IssueType, error
     return project.IssueTypes, nil
 }
 
+func getAllIssuetypes(api *jira.Client) ([]Issuetype, error) {
+    issuetypes := new([]Issuetype)
 
+    req, _ := api.NewRequest("GET", "/rest/api/2/issuetype", nil)
+    _, err := api.Do(req, issuetypes)
+    if err != nil {
+        return nil, err
+    }
+
+    return *issuetypes, nil
+}
 
 func createIssue(api *jira.Client, summary string, issuetype string, project string) (issueKey string, error error) {
     i := jira.Issue{

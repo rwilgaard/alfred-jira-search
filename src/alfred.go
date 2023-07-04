@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
+    "fmt"
 
-	"github.com/andygrunwald/go-jira"
-	"github.com/ncruces/zenity"
+    "github.com/andygrunwald/go-jira"
+    "github.com/ncruces/zenity"
 )
 
 func runAuth() {
@@ -21,15 +21,15 @@ func runAuth() {
 
 func runSearch(api *jira.Client) {
     jql, _ := parseQuery(opts.Query)
-    issues, err := getIssues(api, jql) 
+    issues, err := getIssues(api, jql)
     if err != nil {
         wf.FatalError(err)
     }
 
     for _, issue := range issues {
         wf.NewItem(issue.Key).
-            Arg("open").
             Subtitle(fmt.Sprintf("%s  •  %s", issue.Fields.Status.Name, issue.Fields.Summary)).
+            Var("action", "open").
             Var("issuekey", issue.Key).
             Var("item_url", fmt.Sprintf("%s/browse/%s", cfg.URL, issue.Key)).
             Icon(getIcon(issue.Fields.Type.Name)).
@@ -38,16 +38,13 @@ func runSearch(api *jira.Client) {
 }
 
 func runGetProjects() {
-    if wf.Cache.Exists(cacheName) {
-        if err := wf.Cache.LoadJSON(cacheName, &projectCache); err != nil {
+    if wf.Cache.Exists(projectCacheName) {
+        if err := wf.Cache.LoadJSON(projectCacheName, &projectCache); err != nil {
             wf.FatalError(err)
         }
     }
 
-    var prevQuery string
-    if err := wf.Cache.LoadJSON("prev_query", &prevQuery); err != nil {
-        wf.FatalError(err)
-    }
+    prevQuery, _ := wf.Config.Env.Lookup("prev_query")
 
     wf.NewItem("Cancel").
         Arg("cancel").
@@ -57,30 +54,48 @@ func runGetProjects() {
         wf.NewItem(s.Key).
             Match(fmt.Sprintf("%s %s", s.Key, s.Name)).
             Subtitle(s.Name).
-            Arg(prevQuery + s.Key + " ").
+            Arg(prevQuery+s.Key+" ").
             Var("project", s.Key).
             Valid(true)
     }
 }
 
-func runGetIssuetypes(api *jira.Client, projectKey string) {
-    var prevQuery string
-    if err := wf.Cache.LoadJSON("prev_query", &prevQuery); err != nil {
-        wf.FatalError(err)
-    }
+func runGetProjectIssuetypes(api *jira.Client, projectKey string) {
+    prevQuery, _ := wf.Config.Env.Lookup("prev_query")
 
     wf.NewItem("Cancel").
         Arg("cancel").
         Valid(true)
 
-    issuetypes, err := getIssuetypes(api, projectKey)
+    issuetypes, err := getProjectIssuetypes(api, projectKey)
     if err != nil {
         wf.FatalError(err)
     }
 
     for _, i := range issuetypes {
         wf.NewItem(i.Name).
-            Arg(prevQuery + i.Name + " ").
+            Arg(prevQuery+i.Name+" ").
+            Var("issuetype", i.Name).
+            Valid(true)
+    }
+}
+
+func runGetAllIssuetypes(api *jira.Client) {
+    if wf.Cache.Exists(issuetypeCacheName) {
+        if err := wf.Cache.LoadJSON(issuetypeCacheName, &issuetypeCache); err != nil {
+            wf.FatalError(err)
+        }
+    }
+
+    prevQuery, _ := wf.Config.Env.Lookup("prev_query")
+
+    wf.NewItem("Cancel").
+        Arg("cancel").
+        Valid(true)
+
+    for _, i := range issuetypeCache {
+        wf.NewItem(i.Name).
+            Arg(prevQuery+i.Name+" ").
             Var("issuetype", i.Name).
             Valid(true)
     }
