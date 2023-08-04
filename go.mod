@@ -6,7 +6,7 @@ require (
 	github.com/andygrunwald/go-jira v1.16.0
 	github.com/deanishe/awgo v0.29.1
 	github.com/lithammer/fuzzysearch v1.1.8
-	github.com/ncruces/zenity v0.10.9
+	github.com/ncruces/zenity v0.10.10
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/trivago/tgo v1.0.7 // indirect
 	go.deanishe.net/env v0.5.1 // indirect
 	go.deanishe.net/fuzzy v1.0.0 // indirect
-	golang.org/x/image v0.8.0 // indirect
-	golang.org/x/sys v0.9.0 // indirect
-	golang.org/x/text v0.10.0 // indirect
+	golang.org/x/image v0.10.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 )
