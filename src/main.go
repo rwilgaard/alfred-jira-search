@@ -1,22 +1,24 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "os"
-    "os/exec"
-    "time"
+	"fmt"
+	"log"
+	"os"
+	"os/exec"
+	"strings"
+	"time"
 
-    "github.com/andygrunwald/go-jira"
-    aw "github.com/deanishe/awgo"
-    "github.com/deanishe/awgo/update"
+	"github.com/andygrunwald/go-jira"
+	aw "github.com/deanishe/awgo"
+	"github.com/deanishe/awgo/update"
 )
 
 type workflowConfig struct {
-    URL      string `env:"jira_url"`
-    Username string `env:"username"`
-    AltIcons bool   `env:"alt_icons"`
-    APIToken string
+    URL                  string `env:"jira_url"`
+    Username             string `env:"username"`
+    AltIcons             bool   `env:"alt_icons"`
+    JiraTogglIntegration bool   `env:"jira_toggl_integration"`
+    APIToken             string
 }
 
 const (
@@ -30,9 +32,11 @@ var (
     cfg                *workflowConfig
     projectCacheName   = "projects.json"
     issuetypeCacheName = "issuetypes.json"
+    statusCacheName    = "status.json"
     maxCacheAge        = 24 * time.Hour
     projectCache       []Project
     issuetypeCache     []Issuetype
+    statusCache        []Status
 )
 
 func init() {
@@ -56,19 +60,30 @@ func run() {
         runAuth()
     }
 
+    parsedQuery := parseQuery(opts.Query)
+
+    if a := autocomplete(opts.Query); a != "" {
+        if err := wf.Alfred.RunTrigger(a, fmt.Sprintf("%s;%s", opts.Query, strings.Join(parsedQuery.Projects, ","))); err != nil {
+            wf.FatalError(err)
+        }
+        return
+    }
+
     if opts.GetProjects {
         runGetProjects()
-        if len(opts.Query) > 0 {
-            wf.Filter(opts.Query)
-        }
         wf.SendFeedback()
         return
     }
 
-    if a := autocomplete(opts.Query); a != "" {
-        if err := wf.Alfred.RunTrigger(a, opts.Query); err != nil {
-            wf.FatalError(err)
-        }
+    if opts.GetStatus {
+        runGetStatus()
+        wf.SendFeedback()
+        return
+    }
+
+    if opts.GetIssuetypes {
+        runGetAllIssuetypes()
+        wf.SendFeedback()
         return
     }
 
@@ -94,15 +109,8 @@ func run() {
         wf.FatalError(err)
     }
 
-    if opts.GetIssuetypes {
-        if opts.Project != "" {
-            runGetProjectIssuetypes(api, opts.Project)
-        } else {
-            runGetAllIssuetypes(api)
-            if opts.Query != "" {
-                wf.Filter(opts.Query)
-            }
-        }
+    if opts.GetAssignees {
+        runGetAssignees(api)
         wf.SendFeedback()
         return
     }
@@ -128,10 +136,20 @@ func run() {
             wf.FatalError(err)
         }
         log.Println("[main] cached issuetypes")
+
+        log.Println("[main] fetching status...")
+        status, err := getStatus(api)
+        if err != nil {
+            wf.FatalError(err)
+        }
+        if err := wf.Cache.StoreJSON(statusCacheName, status); err != nil {
+            wf.FatalError(err)
+        }
+        log.Println("[main] cached status")
         return
     }
 
-    if wf.Cache.Expired(projectCacheName, maxCacheAge) {
+    if wf.Cache.Expired(projectCacheName, maxCacheAge) || wf.Cache.Expired(issuetypeCacheName, maxCacheAge) || wf.Cache.Expired(statusCacheName, maxCacheAge) {
         wf.Rerun(0.3)
         if !wf.IsRunning("cache") {
             log.Println("[main] refreshing cache...")
@@ -145,13 +163,14 @@ func run() {
     }
 
     if opts.Create {
-        issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Project)
+        issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Projects)
         if err != nil {
             wf.FatalError(err)
         }
 
         av := aw.NewArgVars()
         av.Var("message", fmt.Sprintf("%s created!", issueKey))
+        av.Arg(issueKey)
         if err := av.Send(); err != nil {
             panic(err)
         }
@@ -159,7 +178,17 @@ func run() {
         return
     }
 
-    runSearch(api)
+    if opts.MyIssues {
+        runMyIssues(api)
+        wf.SendFeedback()
+        return
+    }
+
+    if parsedQuery.IssueKey == "" {
+        time.Sleep(500 * time.Millisecond)
+    }
+
+    runSearch(api, parsedQuery)
 
     if wf.IsEmpty() {
         wf.NewItem("No results found...").
