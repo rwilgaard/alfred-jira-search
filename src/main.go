@@ -93,6 +93,7 @@ func run() {
             Subtitle("Press ⏎ to authenticate").
             Icon(aw.IconInfo).
             Var("action", "auth").
+            Arg(" ").
             Valid(true)
         wf.SendFeedback()
         return

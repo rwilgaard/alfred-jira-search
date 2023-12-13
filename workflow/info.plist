@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.rwilgaard.alfred.alfred-jira-search-go</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>045DEED0-3C21-453D-8C7A-4D17F7A5E7D9</key>
@@ -565,7 +563,7 @@
 				<key>passvariables</key>
 				<true/>
 				<key>workflowbundleid</key>
-				<string>com.keido.dk.alfred.alfred-toggl-jira</string>
+				<string>com.keido.dk.alfred.alfred-jira-toggl</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.callexternaltrigger</string>
@@ -806,9 +804,9 @@
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
-				<false/>
+				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>argumenttreatemptyqueryasnil</key>
 				<false/>
 				<key>argumenttrimmode</key>
@@ -857,7 +855,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./alfred-jira-search -create -project "$project" -issuetype "$issuetype" "$summary"</string>
+				<string>./alfred-jira-search -create -projects "$project_raw" -issuetype "$issuetype_raw" "$summary"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -940,7 +938,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>./alfred-jira-search -get-issuetypes -project "$project"</string>
+				<string>./alfred-jira-search -get-issuetypes -projects "$project"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1185,6 +1183,8 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>config</key>
+			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1362,6 +1362,8 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>config</key>
+			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1539,6 +1541,8 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>config</key>
+			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1716,6 +1720,8 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>config</key>
+			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1937,7 +1943,7 @@
 		<key>C3B194B7-86A6-4BA6-801C-CF5403F03213</key>
 		<dict>
 			<key>xpos</key>
-			<real>565</real>
+			<real>560</real>
 			<key>ypos</key>
 			<real>40</real>
 		</dict>

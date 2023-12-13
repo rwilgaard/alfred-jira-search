@@ -143,6 +143,7 @@ func runGetProjects() {
             Subtitle(s.Name).
             Arg(prevQuery+s.Key+" ").
             Var("project", strings.ReplaceAll(s.Key, " ", "_")).
+            Var("project_raw", s.Key).
             Valid(true)
         i.NewModifier(aw.ModCmd).
             Subtitle("Cancel").
@@ -187,6 +188,7 @@ func runGetAllIssuetypes() {
             UID(i.Name).
             Arg(prevQuery+name+" ").
             Var("issuetype", name).
+            Var("issuetype_raw", i.Name).
             Valid(true)
         i.NewModifier(aw.ModCmd).
             Subtitle("Cancel").
