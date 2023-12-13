@@ -496,6 +496,18 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>5523F44B-B25B-4263-B182-8DA4C8FF1214</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>684DBAB3-D4BC-45A3-8110-3C333692AAA2</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>11A61832-1C3F-4E38-8A07-B37656952056</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -557,6 +569,25 @@
 			<key>config</key>
 			<dict>
 				<key>externaltriggerid</key>
+				<string>search</string>
+				<key>passinputasargument</key>
+				<true/>
+				<key>passvariables</key>
+				<true/>
+				<key>workflowbundleid</key>
+				<string>self</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.callexternaltrigger</string>
+			<key>uid</key>
+			<string>45D92F36-7816-47B7-87F8-DC1C2C319415</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>externaltriggerid</key>
 				<string>track-issue-key</string>
 				<key>passinputasargument</key>
 				<false/>
@@ -569,115 +600,6 @@
 			<string>alfred.workflow.output.callexternaltrigger</string>
 			<key>uid</key>
 			<string>C3B194B7-86A6-4BA6-801C-CF5403F03213</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>ja</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>1</integer>
-				<key>queuemode</key>
-				<integer>2</integer>
-				<key>runningsubtext</key>
-				<string>Searching for issues</string>
-				<key>script</key>
-				<string>./alfred-jira-search -myissues "$1"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Jira Search my assigned issues</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>CE693E36-5C29-4B47-86BA-29469532932E</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>conditions</key>
-				<array>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>0</integer>
-						<key>matchstring</key>
-						<string>toggl</string>
-						<key>outputlabel</key>
-						<string>toggl</string>
-						<key>uid</key>
-						<string>489A38DB-FAF4-46E0-A73F-47A073901B19</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>0</integer>
-						<key>matchstring</key>
-						<string>auth</string>
-						<key>outputlabel</key>
-						<string>auth</string>
-						<key>uid</key>
-						<string>049448C7-017E-4E8C-8B12-30AEABC60F45</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>0</integer>
-						<key>matchstring</key>
-						<string>open</string>
-						<key>outputlabel</key>
-						<string>open</string>
-						<key>uid</key>
-						<string>755804B2-3220-4023-A6AC-5F2C76FEDD6C</string>
-					</dict>
-				</array>
-				<key>elselabel</key>
-				<string>else</string>
-				<key>hideelse</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.conditional</string>
-			<key>uid</key>
-			<string>F79AE2B6-6A34-4480-B6E4-D21DA7F594F2</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -703,102 +625,6 @@
 			<string>9BD1A036-64E4-4FDF-86CC-567F1683069B</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>js</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>2</integer>
-				<key>runningsubtext</key>
-				<string>Searching for issues</string>
-				<key>script</key>
-				<string>./alfred-jira-search "$1"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Jira Search</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>inboundconfig</key>
-			<dict>
-				<key>externalid</key>
-				<string>search</string>
-				<key>inputmode</key>
-				<integer>1</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>2879D4E8-09BD-4605-A285-EAD5B8D60FED</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>skipqueryencode</key>
-				<false/>
-				<key>skipvarencode</key>
-				<false/>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>{var:item_url}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>11A61832-1C3F-4E38-8A07-B37656952056</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>externaltriggerid</key>
-				<string>search</string>
-				<key>passinputasargument</key>
-				<true/>
-				<key>passvariables</key>
-				<true/>
-				<key>workflowbundleid</key>
-				<string>self</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.callexternaltrigger</string>
-			<key>uid</key>
-			<string>45D92F36-7816-47B7-87F8-DC1C2C319415</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -855,7 +681,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./alfred-jira-search -create -projects "$project_raw" -issuetype "$issuetype_raw" "$summary"</string>
+				<string>./alfred-jira-search -create -project "$project_raw" -issuetype "$issuetype_raw" "$summary"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -938,7 +764,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>./alfred-jira-search -get-issuetypes -projects "$project"</string>
+				<string>./alfred-jira-search -get-issuetypes</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -956,6 +782,55 @@
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>DB94331F-213B-4356-8B3C-CC3809C33631</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>ja</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching for issues</string>
+				<key>script</key>
+				<string>./alfred-jira-search -myissues "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Jira Search my assigned issues</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>CE693E36-5C29-4B47-86BA-29469532932E</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -1010,6 +885,178 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>3B2EC56D-413E-4830-A42C-B40AB7DF65CA</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>toggl</string>
+						<key>outputlabel</key>
+						<string>toggl</string>
+						<key>uid</key>
+						<string>489A38DB-FAF4-46E0-A73F-47A073901B19</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>auth</string>
+						<key>outputlabel</key>
+						<string>auth</string>
+						<key>uid</key>
+						<string>049448C7-017E-4E8C-8B12-30AEABC60F45</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>jql</string>
+						<key>outputlabel</key>
+						<string>jql</string>
+						<key>uid</key>
+						<string>684DBAB3-D4BC-45A3-8110-3C333692AAA2</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>open</string>
+						<key>outputlabel</key>
+						<string>open</string>
+						<key>uid</key>
+						<string>755804B2-3220-4023-A6AC-5F2C76FEDD6C</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>F79AE2B6-6A34-4480-B6E4-D21DA7F594F2</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{var:jira_url}/issues/?jql={var:jql}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>5523F44B-B25B-4263-B182-8DA4C8FF1214</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>js</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching for issues</string>
+				<key>script</key>
+				<string>./alfred-jira-search "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Jira Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>inboundconfig</key>
+			<dict>
+				<key>externalid</key>
+				<string>search</string>
+				<key>inputmode</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2879D4E8-09BD-4605-A285-EAD5B8D60FED</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{var:item_url}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>11A61832-1C3F-4E38-8A07-B37656952056</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1105,6 +1152,55 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:custom_search1_keyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching for issues</string>
+				<key>script</key>
+				<string>./alfred-jira-search -project "$custom_search1_project" "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>{var:custom_search1_project} Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E0547D92-C827-4A2C-A9E7-6AA52F8815D7</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>conditions</key>
 				<array>
 					<dict>
@@ -1183,8 +1279,6 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
-			<key>config</key>
-			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1362,8 +1456,6 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
-			<key>config</key>
-			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1541,8 +1633,6 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
-			<key>config</key>
-			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1720,8 +1810,6 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
-			<key>config</key>
-			<dict/>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -1751,23 +1839,23 @@
 		<key>11A61832-1C3F-4E38-8A07-B37656952056</key>
 		<dict>
 			<key>xpos</key>
-			<real>560</real>
+			<real>555</real>
 			<key>ypos</key>
-			<real>255</real>
+			<real>330</real>
 		</dict>
 		<key>12944EE4-9AB1-4F66-B805-0BB07A2336EC</key>
 		<dict>
 			<key>xpos</key>
-			<real>705</real>
+			<real>1305</real>
 			<key>ypos</key>
-			<real>410</real>
+			<real>155</real>
 		</dict>
 		<key>17C07C21-0CDF-4C95-AF94-2A06AB632410</key>
 		<dict>
 			<key>xpos</key>
-			<real>770</real>
+			<real>1370</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>125</real>
 		</dict>
 		<key>227ECBCC-FD78-46A7-A7C8-C444FAC6DCD3</key>
 		<dict>
@@ -1781,9 +1869,9 @@
 			<key>note</key>
 			<string>Search for issues</string>
 			<key>xpos</key>
-			<real>140</real>
+			<real>135</real>
 			<key>ypos</key>
-			<real>200</real>
+			<real>275</real>
 		</dict>
 		<key>2C218F76-7DA1-4C08-8CB9-D38D859552E2</key>
 		<dict>
@@ -1809,16 +1897,16 @@
 		<key>3B2EC56D-413E-4830-A42C-B40AB7DF65CA</key>
 		<dict>
 			<key>xpos</key>
-			<real>495</real>
+			<real>1095</real>
 			<key>ypos</key>
-			<real>410</real>
+			<real>155</real>
 		</dict>
 		<key>45D92F36-7816-47B7-87F8-DC1C2C319415</key>
 		<dict>
 			<key>xpos</key>
-			<real>930</real>
+			<real>1530</real>
 			<key>ypos</key>
-			<real>270</real>
+			<real>15</real>
 		</dict>
 		<key>53F317BA-B0EE-4DD3-AB7A-CE9897C79557</key>
 		<dict>
@@ -1826,6 +1914,13 @@
 			<real>135</real>
 			<key>ypos</key>
 			<real>735</real>
+		</dict>
+		<key>5523F44B-B25B-4263-B182-8DA4C8FF1214</key>
+		<dict>
+			<key>xpos</key>
+			<real>555</real>
+			<key>ypos</key>
+			<real>225</real>
 		</dict>
 		<key>6E9B36E6-CBD9-4FCB-91DB-DC698490F246</key>
 		<dict>
@@ -1839,9 +1934,9 @@
 			<key>note</key>
 			<string>Create issue</string>
 			<key>xpos</key>
-			<real>140</real>
+			<real>740</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>125</real>
 		</dict>
 		<key>726AF036-22E8-4748-BDBD-2CD7159758F7</key>
 		<dict>
@@ -1869,9 +1964,9 @@
 			<key>note</key>
 			<string>Select project</string>
 			<key>xpos</key>
-			<real>345</real>
+			<real>945</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>125</real>
 		</dict>
 		<key>865F4AAA-0361-4C30-9574-1733AE2AEDB2</key>
 		<dict>
@@ -1892,16 +1987,16 @@
 		<key>96495633-8E86-4050-A713-15DDF7453DDC</key>
 		<dict>
 			<key>xpos</key>
-			<real>285</real>
+			<real>885</real>
 			<key>ypos</key>
-			<real>410</real>
+			<real>155</real>
 		</dict>
 		<key>9BD1A036-64E4-4FDF-86CC-567F1683069B</key>
 		<dict>
 			<key>xpos</key>
-			<real>560</real>
+			<real>555</real>
 			<key>ypos</key>
-			<real>150</real>
+			<real>120</real>
 		</dict>
 		<key>A50F2F74-4C33-4922-B1A0-6272DD66508A</key>
 		<dict>
@@ -1943,25 +2038,25 @@
 		<key>C3B194B7-86A6-4BA6-801C-CF5403F03213</key>
 		<dict>
 			<key>xpos</key>
-			<real>560</real>
+			<real>555</real>
 			<key>ypos</key>
-			<real>40</real>
+			<real>15</real>
 		</dict>
 		<key>CB2ADBE8-6F6B-4F71-A9E7-C5C66E9F3CA4</key>
 		<dict>
 			<key>xpos</key>
-			<real>930</real>
+			<real>1530</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>125</real>
 		</dict>
 		<key>CE693E36-5C29-4B47-86BA-29469532932E</key>
 		<dict>
 			<key>note</key>
 			<string>Search for issues</string>
 			<key>xpos</key>
-			<real>140</real>
+			<real>135</real>
 			<key>ypos</key>
-			<real>65</real>
+			<real>140</real>
 		</dict>
 		<key>CF1AF85F-DB34-47E2-865C-4E4587492D19</key>
 		<dict>
@@ -1996,9 +2091,18 @@
 			<key>note</key>
 			<string>Select issuetype</string>
 			<key>xpos</key>
-			<real>560</real>
+			<real>1160</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>125</real>
+		</dict>
+		<key>E0547D92-C827-4A2C-A9E7-6AA52F8815D7</key>
+		<dict>
+			<key>note</key>
+			<string>#1 Custom Project Search</string>
+			<key>xpos</key>
+			<real>910</real>
+			<key>ypos</key>
+			<real>555</real>
 		</dict>
 		<key>E990FFCB-F76A-4EB3-8DC8-304FF6ED9236</key>
 		<dict>
@@ -2042,9 +2146,9 @@
 		<key>F79AE2B6-6A34-4480-B6E4-D21DA7F594F2</key>
 		<dict>
 			<key>xpos</key>
-			<real>360</real>
+			<real>355</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>200</real>
 		</dict>
 		<key>FD7A26D3-0D2E-42C8-BDE4-A27D4E77B703</key>
 		<dict>
@@ -2128,13 +2232,55 @@
 				<string></string>
 			</dict>
 			<key>description</key>
-			<string>Enable integration to "Jira Toggl Integration" workflow (com.keido.dk.alfred.alfred-toggl-jira).</string>
+			<string>Enable integration to "Jira Toggl Integration" workflow (com.keido.dk.alfred.alfred-jira-toggl).</string>
 			<key>label</key>
 			<string>Jira Toggl Integration</string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
 			<string>jira_toggl_integration</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>#1 Custom Project Search - Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>custom_search1_keyword</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>#1 Custom Project Search - Project Key</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>custom_search1_project</string>
 		</dict>
 	</array>
 	<key>version</key>

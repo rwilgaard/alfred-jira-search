@@ -164,7 +164,7 @@ func run() {
     }
 
     if opts.Create {
-        issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Projects)
+        issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Project)
         if err != nil {
             wf.FatalError(err)
         }

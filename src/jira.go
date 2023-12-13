@@ -40,6 +40,7 @@ func autocomplete(query string) string {
 }
 
 func buildQuery(query *parsedQuery) (jql string) {
+    defaultOrder := " ORDER BY created DESC"
     if query.IssueKey != "" {
         jql = fmt.Sprintf("key = '%s'", query.IssueKey)
         return jql
@@ -77,7 +78,7 @@ func buildQuery(query *parsedQuery) (jql string) {
         jql = jql + fmt.Sprintf("assignee in (%s)", "'"+strings.Join(query.Assignees, "','")+"'")
     }
 
-    return jql
+    return jql+defaultOrder
 }
 
 func getAssignableUsers(api *jira.Client, query string, projects string) ([]jira.User, error) {
@@ -92,7 +93,6 @@ func getAssignableUsers(api *jira.Client, query string, projects string) ([]jira
 }
 
 func getIssues(api *jira.Client, jql string, maxResults int) ([]jira.Issue, error) {
-    defaultOrder := " ORDER BY created DESC"
     opts := jira.SearchOptions{
         Fields: []string{
             "key",
@@ -109,7 +109,7 @@ func getIssues(api *jira.Client, jql string, maxResults int) ([]jira.Issue, erro
         MaxResults: maxResults,
     }
     log.Println("Running Search!")
-    issues, _, err := api.Issue.Search(jql+defaultOrder, &opts)
+    issues, _, err := api.Issue.Search(jql, &opts)
     if err != nil {
         return nil, err
     }

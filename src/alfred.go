@@ -39,6 +39,10 @@ func parseQuery(query string) *parsedQuery {
     statusRegex := regexp.MustCompile(`^\?\w+`)
     assigneeRegex := regexp.MustCompile(`^%\w+`)
 
+    if opts.Project != "" {
+        q.Projects = append(q.Projects, opts.Project)
+    }
+
     for _, w := range strings.Split(query, " ") {
         switch {
         case issueKeyRegex.MatchString(w):
@@ -87,6 +91,11 @@ func runSearch(api *jira.Client, query *parsedQuery) {
 
         i.NewModifier(aw.ModOpt).
             Subtitle(fmt.Sprintf("Assignee: %s  •  Created: %s  •  Updated: %s", assignee, issue.RenderedFields.Created, issue.RenderedFields.Updated))
+
+        i.NewModifier(aw.ModCtrl).
+            Subtitle("Open search results in Jira").
+            Var("action", "jql").
+            Var("jql", jql)
 
         if cfg.JiraTogglIntegration {
             i.NewModifier(aw.ModCmd).

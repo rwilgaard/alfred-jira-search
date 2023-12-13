@@ -21,6 +21,7 @@ type options struct {
     MyIssues      bool
     Auth          bool
     Create        bool
+    Project       string
     Projects      string
     Issuetype     string
 }
@@ -35,6 +36,7 @@ func init() {
     cli.BoolVar(&opts.MyIssues, "myissues", false, "search my assigned issues")
     cli.BoolVar(&opts.Auth, "auth", false, "authenticate")
     cli.BoolVar(&opts.Create, "create", false, "create jira issue")
+    cli.StringVar(&opts.Project, "project", "", "project")
     cli.StringVar(&opts.Projects, "projects", "", "projects")
     cli.StringVar(&opts.Issuetype, "issuetype", "", "issuetype")
 }
