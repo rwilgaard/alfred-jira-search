@@ -1,6 +1,6 @@
 module github.com/rwilgaard/alfred-jira-search
 
-go 1.20
+go 1.21
 
 require (
 	github.com/andygrunwald/go-jira v1.16.0
