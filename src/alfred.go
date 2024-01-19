@@ -19,6 +19,15 @@ type parsedQuery struct {
     Assignees  []string
 }
 
+type magicAuth struct {
+    wf *aw.Workflow
+}
+
+func (a magicAuth) Keyword() string     { return "clearauth" }
+func (a magicAuth) Description() string { return "Clear credentials" }
+func (a magicAuth) RunText() string     { return "Credentials cleared!" }
+func (a magicAuth) Run() error          { return clearAuth() }
+
 func runAuth() {
     _, pwd, err := zenity.Password(
         zenity.Title(fmt.Sprintf("Enter API Token for %s", cfg.Username)),
@@ -26,6 +35,28 @@ func runAuth() {
     if err != nil {
         wf.FatalError(err)
     }
+
+    tp := jira.BasicAuthTransport{
+        Username: cfg.Username,
+        Password: pwd,
+    }
+    api, err := jira.NewClient(tp.Client(), cfg.URL)
+    if err != nil {
+        wf.FatalError(err)
+    }
+
+    sc, err := testAuthentication(api)
+    if err != nil {
+        zerr := zenity.Error(
+            fmt.Sprintf("Error authenticating: HTTP %d", sc),
+            zenity.ErrorIcon,
+        )
+        if zerr != nil {
+            wf.FatalError(err)
+        }
+        wf.FatalError(err)
+    }
+
     if err := wf.Keychain.Set(keychainAccount, pwd); err != nil {
         wf.FatalError(err)
     }
@@ -170,11 +201,13 @@ func runGetStatus() {
     prevQuery, _ := wf.Config.Env.Lookup("prev_query")
 
     for _, s := range statusCache {
+        status := strings.ReplaceAll(s.Name, " ", "_")
         i := wf.NewItem(s.Name).
             UID(s.ID).
             Match(s.Name).
-            Arg(prevQuery+s.Name+" ").
-            Var("status", strings.ReplaceAll(s.Name, " ", "_")).
+            Arg(prevQuery+status+" ").
+            Var("status", status).
+            Var("status_raw", s.Name).
             Valid(true)
         i.NewModifier(aw.ModCmd).
             Subtitle("Cancel").
@@ -231,4 +264,11 @@ func runGetAssignees(api *jira.Client) {
             Subtitle("Cancel").
             Arg("cancel")
     }
+}
+
+func clearAuth() error {
+    if err := wf.Keychain.Delete(keychainAccount); err != nil {
+        return err
+    }
+    return nil
 }

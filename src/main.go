@@ -42,6 +42,7 @@ var (
 func init() {
     wf = aw.New(
         update.GitHub(repo),
+        aw.AddMagic(magicAuth{wf}),
     )
 }
 

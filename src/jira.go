@@ -39,6 +39,14 @@ func autocomplete(query string) string {
     return ""
 }
 
+func testAuthentication(api *jira.Client) (statusCode int, err error) {
+    _, resp, err := api.User.GetSelf()
+    if err != nil {
+        return resp.StatusCode, err
+    }
+    return resp.StatusCode, nil
+}
+
 func buildQuery(query *parsedQuery) (jql string) {
     defaultOrder := " ORDER BY created DESC"
     if query.IssueKey != "" {
@@ -54,28 +62,28 @@ func buildQuery(query *parsedQuery) (jql string) {
         if jql != "" {
             jql += " AND "
         }
-        jql = jql + fmt.Sprintf("project in (%s)", strings.Join(query.Projects, ","))
+        jql += fmt.Sprintf("project in (%s)", strings.Join(query.Projects, ","))
     }
 
     if len(query.Issuetypes) > 0 {
         if jql != "" {
             jql += " AND "
         }
-        jql = jql + fmt.Sprintf("issuetype in (%s)", "'"+strings.Join(query.Issuetypes, "','")+"'")
+        jql += fmt.Sprintf("issuetype in (%s)", "'"+strings.Join(query.Issuetypes, "','")+"'")
     }
 
     if len(query.Status) > 0 {
         if jql != "" {
             jql += " AND "
         }
-        jql = jql + fmt.Sprintf("status in (%s)", strings.Join(query.Status, ","))
+        jql += fmt.Sprintf("status in (%s)", strings.Join(query.Status, ","))
     }
 
     if len(query.Assignees) > 0 {
         if jql != "" {
             jql += " AND "
         }
-        jql = jql + fmt.Sprintf("assignee in (%s)", "'"+strings.Join(query.Assignees, "','")+"'")
+        jql += fmt.Sprintf("assignee in (%s)", "'"+strings.Join(query.Assignees, "','")+"'")
     }
 
     return jql+defaultOrder
