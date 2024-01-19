@@ -21,7 +21,7 @@ require (
 	github.com/trivago/tgo v1.0.7 // indirect
 	go.deanishe.net/env v0.5.1 // indirect
 	go.deanishe.net/fuzzy v1.0.0 // indirect
-	golang.org/x/image v0.14.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/image v0.15.0 // indirect
+	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 )
