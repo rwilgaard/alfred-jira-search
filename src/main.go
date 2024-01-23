@@ -33,7 +33,7 @@ var (
     projectCacheName   = "projects.json"
     issuetypeCacheName = "issuetypes.json"
     statusCacheName    = "status.json"
-    maxCacheAge        = 24 * time.Hour
+    maxCacheAge        = 168 * time.Hour
     projectCache       []Project
     issuetypeCache     []Issuetype
     statusCache        []Status
