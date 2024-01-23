@@ -99,7 +99,7 @@ func parseQuery(query string) *parsedQuery {
 }
 
 func runSearch(api *jira.Client, query *parsedQuery) {
-    jql := buildQuery(query)
+    jql := buildJQL(query)
     issues, err := getIssues(api, jql, 15)
     if err != nil {
         wf.FatalError(err)

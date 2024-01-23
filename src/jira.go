@@ -47,7 +47,7 @@ func testAuthentication(api *jira.Client) (statusCode int, err error) {
     return resp.StatusCode, nil
 }
 
-func buildQuery(query *parsedQuery) (jql string) {
+func buildJQL(query *parsedQuery) (jql string) {
     defaultOrder := " ORDER BY created DESC"
     if query.IssueKey != "" {
         jql = fmt.Sprintf("key = '%s'", query.IssueKey)
@@ -62,7 +62,7 @@ func buildQuery(query *parsedQuery) (jql string) {
         if jql != "" {
             jql += " AND "
         }
-        jql += fmt.Sprintf("project in (%s)", strings.Join(query.Projects, ","))
+        jql += fmt.Sprintf("project in (%s)", "'"+strings.Join(query.Projects, "','")+"'")
     }
 
     if len(query.Issuetypes) > 0 {
@@ -76,7 +76,7 @@ func buildQuery(query *parsedQuery) (jql string) {
         if jql != "" {
             jql += " AND "
         }
-        jql += fmt.Sprintf("status in (%s)", strings.Join(query.Status, ","))
+        jql += fmt.Sprintf("status in (%s)", "'"+strings.Join(query.Status, "','")+"'")
     }
 
     if len(query.Assignees) > 0 {
