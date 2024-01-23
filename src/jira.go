@@ -111,12 +111,11 @@ func getIssues(api *jira.Client, jql string, maxResults int) ([]jira.Issue, erro
             "assignee",
             "created",
             "updated",
-            "customfield_15636",
         },
         Expand:     "renderedFields",
         MaxResults: maxResults,
     }
-    log.Println("Running Search!")
+
     issues, _, err := api.Issue.Search(jql, &opts)
     if err != nil {
         return nil, err

@@ -1152,55 +1152,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:custom_search1_keyword}</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>2</integer>
-				<key>runningsubtext</key>
-				<string>Searching for issues</string>
-				<key>script</key>
-				<string>./alfred-jira-search -project "$custom_search1_project" "$1"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>{var:custom_search1_project} Search</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>E0547D92-C827-4A2C-A9E7-6AA52F8815D7</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>conditions</key>
 				<array>
 					<dict>
@@ -2094,15 +2045,6 @@
 			<real>1160</real>
 			<key>ypos</key>
 			<real>125</real>
-		</dict>
-		<key>E0547D92-C827-4A2C-A9E7-6AA52F8815D7</key>
-		<dict>
-			<key>note</key>
-			<string>#1 Custom Project Search</string>
-			<key>xpos</key>
-			<real>910</real>
-			<key>ypos</key>
-			<real>555</real>
 		</dict>
 		<key>E990FFCB-F76A-4EB3-8DC8-304FF6ED9236</key>
 		<dict>
