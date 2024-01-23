@@ -1,11 +1,10 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "strings"
+	"fmt"
+	"strings"
 
-    "github.com/andygrunwald/go-jira"
+	"github.com/andygrunwald/go-jira"
 )
 
 type Project struct {
@@ -86,7 +85,7 @@ func buildJQL(query *parsedQuery) (jql string) {
         jql += fmt.Sprintf("assignee in (%s)", "'"+strings.Join(query.Assignees, "','")+"'")
     }
 
-    return jql+defaultOrder
+    return jql + defaultOrder
 }
 
 func getAssignableUsers(api *jira.Client, query string, projects string) ([]jira.User, error) {

@@ -1,16 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
-	"os/exec"
-	"strings"
-	"time"
+    "fmt"
+    "log"
+    "os"
+    "os/exec"
+    "strings"
+    "time"
 
-	"github.com/andygrunwald/go-jira"
-	aw "github.com/deanishe/awgo"
-	"github.com/deanishe/awgo/update"
+    "github.com/andygrunwald/go-jira"
+    aw "github.com/deanishe/awgo"
+    "github.com/deanishe/awgo/update"
 )
 
 type workflowConfig struct {
@@ -24,7 +24,7 @@ type workflowConfig struct {
 const (
     repo            = "rwilgaard/alfred-jira-search"
     keychainAccount = "alfred-jira-search"
-    // updateJobName   = "checkForUpdates"
+    updateJobName   = "checkForUpdates"
 )
 
 var (
@@ -51,6 +51,23 @@ func run() {
         wf.FatalError(err)
     }
     opts.Query = cli.Arg(0)
+
+    if opts.Update {
+        wf.Configure(aw.TextErrors(true))
+        log.Println("Checking for updates...")
+        if err := wf.CheckForUpdate(); err != nil {
+            wf.FatalError(err)
+        }
+        return
+    }
+
+    if wf.UpdateCheckDue() && !wf.IsRunning(updateJobName) {
+        log.Println("Running update check in background...")
+        cmd := exec.Command(os.Args[0], "-update")
+        if err := wf.RunInBackground(updateJobName, cmd); err != nil {
+            log.Printf("Error starting update check: %s", err)
+        }
+    }
 
     cfg = &workflowConfig{}
     if err := wf.Config.To(cfg); err != nil {
