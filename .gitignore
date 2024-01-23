@@ -2,3 +2,4 @@
 *.alfredworkflow
 workflow/prefs.plist
 workflow/alfred-jira-search
+src/alfred-jira-search.log
