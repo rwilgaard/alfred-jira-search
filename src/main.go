@@ -46,6 +46,41 @@ func init() {
     )
 }
 
+func refreshCache(api *jira.Client) error {
+    wf.Configure(aw.TextErrors(true))
+    log.Println("[main] fetching projects...")
+    projects, err := getProjects(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(projectCacheName, projects); err != nil {
+        return err
+    }
+    log.Println("[main] cached projects")
+
+    log.Println("[main] fetching issuetypes...")
+    issuetypes, err := getAllIssuetypes(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(issuetypeCacheName, issuetypes); err != nil {
+        return err
+    }
+    log.Println("[main] cached issuetypes")
+
+    log.Println("[main] fetching status...")
+    status, err := getStatus(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(statusCacheName, status); err != nil {
+        return err
+    }
+    log.Println("[main] cached status")
+
+    return nil
+}
+
 func run() {
     if err := cli.Parse(wf.Args()); err != nil {
         wf.FatalError(err)
@@ -87,24 +122,6 @@ func run() {
         return
     }
 
-    if opts.GetProjects {
-        runGetProjects()
-        wf.SendFeedback()
-        return
-    }
-
-    if opts.GetStatus {
-        runGetStatus()
-        wf.SendFeedback()
-        return
-    }
-
-    if opts.GetIssuetypes {
-        runGetAllIssuetypes()
-        wf.SendFeedback()
-        return
-    }
-
     token, err := wf.Keychain.Get(keychainAccount)
     if err != nil {
         wf.NewItem("You're not logged in.").
@@ -128,57 +145,35 @@ func run() {
         wf.FatalError(err)
     }
 
-    if opts.GetAssignees {
-        runGetAssignees(api)
+    if wf.Cache.Expired(projectCacheName, maxCacheAge) || wf.Cache.Expired(issuetypeCacheName, maxCacheAge) || wf.Cache.Expired(statusCacheName, maxCacheAge) {
+        if err := refreshCache(api); err != nil {
+            wf.FatalError(err)
+        }
+    }
+
+    if opts.GetProjects {
+        runGetProjects()
         wf.SendFeedback()
         return
     }
 
-    if opts.Cache {
-        wf.Configure(aw.TextErrors(true))
-        log.Println("[main] fetching projects...")
-        projects, err := getProjects(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(projectCacheName, projects); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached projects")
-
-        log.Println("[main] fetching issuetypes...")
-        issuetypes, err := getAllIssuetypes(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(issuetypeCacheName, issuetypes); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached issuetypes")
-
-        log.Println("[main] fetching status...")
-        status, err := getStatus(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(statusCacheName, status); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached status")
+    if opts.GetStatus {
+        runGetStatus()
+        wf.SendFeedback()
         return
     }
 
-    if wf.Cache.Expired(projectCacheName, maxCacheAge) || wf.Cache.Expired(issuetypeCacheName, maxCacheAge) || wf.Cache.Expired(statusCacheName, maxCacheAge) {
-        wf.Rerun(0.3)
-        if !wf.IsRunning("cache") {
-            log.Println("[main] refreshing cache...")
-            cmd := exec.Command(os.Args[0], "-cache")
-            if err := wf.RunInBackground("cache", cmd); err != nil {
-                wf.FatalError(err)
-            } else {
-                log.Printf("cache job already running.")
-            }
-        }
+    if opts.GetIssuetypes {
+        runGetAllIssuetypes()
+        wf.SendFeedback()
+        return
+    }
+
+
+    if opts.GetAssignees {
+        runGetAssignees(api)
+        wf.SendFeedback()
+        return
     }
 
     if opts.Create {

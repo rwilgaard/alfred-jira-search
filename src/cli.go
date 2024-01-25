@@ -13,7 +13,6 @@ type options struct {
 
     // Commands
     Update        bool
-    Cache         bool
     GetProjects   bool
     GetIssuetypes bool
     GetStatus     bool
@@ -28,7 +27,6 @@ type options struct {
 
 func init() {
     cli.BoolVar(&opts.Update, "update", false, "check for updates")
-    cli.BoolVar(&opts.Cache, "cache", false, "cache spaces")
     cli.BoolVar(&opts.GetProjects, "get-projects", false, "search projects")
     cli.BoolVar(&opts.GetIssuetypes, "get-issuetypes", false, "search issuetypes")
     cli.BoolVar(&opts.GetStatus, "get-status", false, "search status")
