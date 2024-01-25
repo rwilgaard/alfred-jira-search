@@ -22,21 +22,21 @@ type workflowConfig struct {
 }
 
 const (
-    repo            = "rwilgaard/alfred-jira-search"
-    keychainAccount = "alfred-jira-search"
-    updateJobName   = "checkForUpdates"
-)
-
-var (
-    wf                 *aw.Workflow
-    cfg                *workflowConfig
+    repo               = "rwilgaard/alfred-jira-search"
+    keychainAccount    = "alfred-jira-search"
+    updateJobName      = "checkForUpdates"
     projectCacheName   = "projects.json"
     issuetypeCacheName = "issuetypes.json"
     statusCacheName    = "status.json"
     maxCacheAge        = 168 * time.Hour
-    projectCache       []Project
-    issuetypeCache     []Issuetype
-    statusCache        []Status
+)
+
+var (
+    wf             *aw.Workflow
+    cfg            *workflowConfig
+    projectCache   []Project
+    issuetypeCache []Issuetype
+    statusCache    []Status
 )
 
 func init() {
@@ -168,7 +168,6 @@ func run() {
         wf.SendFeedback()
         return
     }
-
 
     if opts.GetAssignees {
         runGetAssignees(api)
