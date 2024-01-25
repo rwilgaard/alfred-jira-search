@@ -5,6 +5,7 @@ import (
     "log"
     "os"
     "os/exec"
+    "strings"
     "time"
 
     "github.com/andygrunwald/go-jira"
@@ -13,16 +14,17 @@ import (
 )
 
 type workflowConfig struct {
-    URL      string `env:"jira_url"`
-    Username string `env:"username"`
-    AltIcons bool   `env:"alt_icons"`
-    APIToken string
+    URL                  string `env:"jira_url"`
+    Username             string `env:"username"`
+    AltIcons             bool   `env:"alt_icons"`
+    JiraTogglIntegration bool   `env:"jira_toggl_integration"`
+    APIToken             string
 }
 
 const (
     repo            = "rwilgaard/alfred-jira-search"
     keychainAccount = "alfred-jira-search"
-    // updateJobName   = "checkForUpdates"
+    updateJobName   = "checkForUpdates"
 )
 
 var (
@@ -30,15 +32,53 @@ var (
     cfg                *workflowConfig
     projectCacheName   = "projects.json"
     issuetypeCacheName = "issuetypes.json"
-    maxCacheAge        = 24 * time.Hour
+    statusCacheName    = "status.json"
+    maxCacheAge        = 168 * time.Hour
     projectCache       []Project
     issuetypeCache     []Issuetype
+    statusCache        []Status
 )
 
 func init() {
     wf = aw.New(
         update.GitHub(repo),
+        aw.AddMagic(magicAuth{wf}),
     )
+}
+
+func refreshCache(api *jira.Client) error {
+    wf.Configure(aw.TextErrors(true))
+    log.Println("[main] fetching projects...")
+    projects, err := getProjects(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(projectCacheName, projects); err != nil {
+        return err
+    }
+    log.Println("[main] cached projects")
+
+    log.Println("[main] fetching issuetypes...")
+    issuetypes, err := getAllIssuetypes(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(issuetypeCacheName, issuetypes); err != nil {
+        return err
+    }
+    log.Println("[main] cached issuetypes")
+
+    log.Println("[main] fetching status...")
+    status, err := getStatus(api)
+    if err != nil {
+        return err
+    }
+    if err := wf.Cache.StoreJSON(statusCacheName, status); err != nil {
+        return err
+    }
+    log.Println("[main] cached status")
+
+    return nil
 }
 
 func run() {
@@ -46,6 +86,23 @@ func run() {
         wf.FatalError(err)
     }
     opts.Query = cli.Arg(0)
+
+    if opts.Update {
+        wf.Configure(aw.TextErrors(true))
+        log.Println("Checking for updates...")
+        if err := wf.CheckForUpdate(); err != nil {
+            wf.FatalError(err)
+        }
+        return
+    }
+
+    if wf.UpdateCheckDue() && !wf.IsRunning(updateJobName) {
+        log.Println("Running update check in background...")
+        cmd := exec.Command(os.Args[0], "-update")
+        if err := wf.RunInBackground(updateJobName, cmd); err != nil {
+            log.Printf("Error starting update check: %s", err)
+        }
+    }
 
     cfg = &workflowConfig{}
     if err := wf.Config.To(cfg); err != nil {
@@ -56,17 +113,10 @@ func run() {
         runAuth()
     }
 
-    if opts.GetProjects {
-        runGetProjects()
-        if len(opts.Query) > 0 {
-            wf.Filter(opts.Query)
-        }
-        wf.SendFeedback()
-        return
-    }
+    parsedQuery := parseQuery(opts.Query)
 
     if a := autocomplete(opts.Query); a != "" {
-        if err := wf.Alfred.RunTrigger(a, opts.Query); err != nil {
+        if err := wf.Alfred.RunTrigger(a, fmt.Sprintf("%s;%s", opts.Query, strings.Join(parsedQuery.Projects, ","))); err != nil {
             wf.FatalError(err)
         }
         return
@@ -78,6 +128,7 @@ func run() {
             Subtitle("Press ⏎ to authenticate").
             Icon(aw.IconInfo).
             Var("action", "auth").
+            Arg(" ").
             Valid(true)
         wf.SendFeedback()
         return
@@ -94,54 +145,35 @@ func run() {
         wf.FatalError(err)
     }
 
-    if opts.GetIssuetypes {
-        if opts.Project != "" {
-            runGetProjectIssuetypes(api, opts.Project)
-        } else {
-            runGetAllIssuetypes(api)
-            if opts.Query != "" {
-                wf.Filter(opts.Query)
-            }
+    if wf.Cache.Expired(projectCacheName, maxCacheAge) || wf.Cache.Expired(issuetypeCacheName, maxCacheAge) || wf.Cache.Expired(statusCacheName, maxCacheAge) {
+        if err := refreshCache(api); err != nil {
+            wf.FatalError(err)
         }
+    }
+
+    if opts.GetProjects {
+        runGetProjects()
         wf.SendFeedback()
         return
     }
 
-    if opts.Cache {
-        wf.Configure(aw.TextErrors(true))
-        log.Println("[main] fetching projects...")
-        projects, err := getProjects(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(projectCacheName, projects); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached projects")
-
-        log.Println("[main] fetching issuetypes...")
-        issuetypes, err := getAllIssuetypes(api)
-        if err != nil {
-            wf.FatalError(err)
-        }
-        if err := wf.Cache.StoreJSON(issuetypeCacheName, issuetypes); err != nil {
-            wf.FatalError(err)
-        }
-        log.Println("[main] cached issuetypes")
+    if opts.GetStatus {
+        runGetStatus()
+        wf.SendFeedback()
         return
     }
 
-    if wf.Cache.Expired(projectCacheName, maxCacheAge) {
-        wf.Rerun(0.3)
-        if !wf.IsRunning("cache") {
-            log.Println("[main] refreshing cache...")
-            cmd := exec.Command(os.Args[0], "-cache")
-            if err := wf.RunInBackground("cache", cmd); err != nil {
-                wf.FatalError(err)
-            } else {
-                log.Printf("cache job already running.")
-            }
-        }
+    if opts.GetIssuetypes {
+        runGetAllIssuetypes()
+        wf.SendFeedback()
+        return
+    }
+
+
+    if opts.GetAssignees {
+        runGetAssignees(api)
+        wf.SendFeedback()
+        return
     }
 
     if opts.Create {
@@ -152,6 +184,7 @@ func run() {
 
         av := aw.NewArgVars()
         av.Var("message", fmt.Sprintf("%s created!", issueKey))
+        av.Arg(issueKey)
         if err := av.Send(); err != nil {
             panic(err)
         }
@@ -159,7 +192,17 @@ func run() {
         return
     }
 
-    runSearch(api)
+    if opts.MyIssues {
+        runMyIssues(api)
+        wf.SendFeedback()
+        return
+    }
+
+    if parsedQuery.IssueKey == "" {
+        time.Sleep(500 * time.Millisecond)
+    }
+
+    runSearch(api, parsedQuery)
 
     if wf.IsEmpty() {
         wf.NewItem("No results found...").

@@ -1,13 +1,10 @@
 package main
 
 import (
-    "fmt"
-    "regexp"
-    "strings"
+	"fmt"
+	"strings"
 
-    "github.com/andygrunwald/go-jira"
-    aw "github.com/deanishe/awgo"
-    "github.com/lithammer/fuzzysearch/fuzzy"
+	"github.com/andygrunwald/go-jira"
 )
 
 type Project struct {
@@ -18,6 +15,11 @@ type Project struct {
 type Issuetype struct {
     ID   string `json:"id"`
     Name string `json:"name"`
+}
+
+type Status struct {
+    ID   string
+    Name string
 }
 
 func autocomplete(query string) string {
@@ -36,76 +38,68 @@ func autocomplete(query string) string {
     return ""
 }
 
-func parseQuery(query string) (string, []string) {
-    if wf.Cache.Exists(projectCacheName) {
-        if err := wf.Cache.LoadJSON(projectCacheName, &projectCache); err != nil {
-            wf.FatalError(err)
-        }
+func testAuthentication(api *jira.Client) (statusCode int, err error) {
+    _, resp, err := api.User.GetSelf()
+    if err != nil {
+        return resp.StatusCode, err
+    }
+    return resp.StatusCode, nil
+}
+
+func buildJQL(query *parsedQuery) (jql string) {
+    defaultOrder := " ORDER BY created DESC"
+    if query.IssueKey != "" {
+        jql = fmt.Sprintf("key = '%s'", query.IssueKey)
+        return jql
     }
 
-    var jql string
-    var text string
-    var projects []string
-
-    issueKeyRegex := regexp.MustCompile("^[a-zA-Z]+-[0-9]+$")
-    projectRegex := regexp.MustCompile(`^@\w+`)
-
-    if issueKeyRegex.MatchString(query) {
-        jql = fmt.Sprintf("key = '%s'", query)
-        return jql, nil
+    if strings.TrimSpace(query.Text) != "" {
+        jql = fmt.Sprintf("text ~ '%s'", strings.TrimSpace(query.Text))
     }
 
-    for _, w := range strings.Split(query, " ") {
-        switch {
-        case projectRegex.MatchString(w):
-            projectKey := w[1:]
-            if projectExists(projectKey, projectCache) {
-                projects = append(projects, projectKey)
-            } else {
-                title := fmt.Sprintf("%s project not found...", strings.ToUpper(projectKey))
-                s := fuzzy.Find(projectKey, projectCacheToSlice(projectCache))
-                sub := fmt.Sprintf("Did you mean %s?", strings.Join(s, ", "))
-                wf.NewItem(title).Subtitle(sub).Icon(aw.IconInfo)
-            }
-        default:
-            text = text + fmt.Sprintf("%s ", w)
-        }
-    }
-
-    if strings.TrimSpace(text) != "" {
-        jql = "text ~ '%s'"
-        jql = fmt.Sprintf(jql, strings.TrimSpace(text))
-    }
-
-    if len(projects) > 0 {
+    if len(query.Projects) > 0 {
         if jql != "" {
             jql += " AND "
         }
-        jql = jql + fmt.Sprintf("project in (%s)", strings.Join(projects, ","))
+        jql += fmt.Sprintf("project in (%s)", "'"+strings.Join(query.Projects, "','")+"'")
     }
 
-    return jql, projects
-}
-
-func projectExists(key string, projects []Project) bool {
-    for _, s := range projects {
-        if strings.EqualFold(s.Key, key) {
-            return true
+    if len(query.Issuetypes) > 0 {
+        if jql != "" {
+            jql += " AND "
         }
+        jql += fmt.Sprintf("issuetype in (%s)", "'"+strings.Join(query.Issuetypes, "','")+"'")
     }
-    return false
+
+    if len(query.Status) > 0 {
+        if jql != "" {
+            jql += " AND "
+        }
+        jql += fmt.Sprintf("status in (%s)", "'"+strings.Join(query.Status, "','")+"'")
+    }
+
+    if len(query.Assignees) > 0 {
+        if jql != "" {
+            jql += " AND "
+        }
+        jql += fmt.Sprintf("assignee in (%s)", "'"+strings.Join(query.Assignees, "','")+"'")
+    }
+
+    return jql + defaultOrder
 }
 
-func projectCacheToSlice(projects []Project) []string {
-    var projectList []string
-    for _, p := range projects {
-        projectList = append(projectList, p.Key)
+func getAssignableUsers(api *jira.Client, query string, projects string) ([]jira.User, error) {
+    users := new([]jira.User)
+    u := fmt.Sprintf("/rest/api/2/user/assignable/multiProjectSearch?projectKeys=%s&maxResults=25&username=%s", projects, query)
+    req, _ := api.NewRequest("GET", u, nil)
+    _, err := api.Do(req, users)
+    if err != nil {
+        return nil, err
     }
-    return projectList
+    return *users, nil
 }
 
-func getIssues(api *jira.Client, jql string) ([]jira.Issue, error) {
-    defaultOrder := " ORDER BY created DESC"
+func getIssues(api *jira.Client, jql string, maxResults int) ([]jira.Issue, error) {
     opts := jira.SearchOptions{
         Fields: []string{
             "key",
@@ -115,11 +109,13 @@ func getIssues(api *jira.Client, jql string) ([]jira.Issue, error) {
             "status",
             "assignee",
             "created",
-            "customfield_15636",
+            "updated",
         },
-        MaxResults: 15,
+        Expand:     "renderedFields",
+        MaxResults: maxResults,
     }
-    issues, _, err := api.Issue.Search(jql+defaultOrder, &opts)
+
+    issues, _, err := api.Issue.Search(jql, &opts)
     if err != nil {
         return nil, err
     }
@@ -144,16 +140,20 @@ func getProjects(api *jira.Client) ([]Project, error) {
     return projects, nil
 }
 
-func getProjectIssuetypes(api *jira.Client, projectKey string) ([]jira.IssueType, error) {
-    project := new(jira.Project)
+func getStatus(api *jira.Client) ([]Status, error) {
+    var status []Status
 
-    req, _ := api.NewRequest("GET", fmt.Sprintf("/rest/api/2/project/%s", projectKey), nil)
-    _, err := api.Do(req, project)
+    sl, _, err := api.Status.GetAllStatuses()
     if err != nil {
         return nil, err
     }
 
-    return project.IssueTypes, nil
+    for _, s := range sl {
+        st := Status{ID: s.ID, Name: s.Name}
+        status = append(status, st)
+    }
+
+    return status, nil
 }
 
 func getAllIssuetypes(api *jira.Client) ([]Issuetype, error) {

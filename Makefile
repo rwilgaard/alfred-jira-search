@@ -16,6 +16,11 @@ lint: ## Lint Golang files
 vet: ## Run go vet
 	@go vet ./src
 
+test:
+	@alfred_workflow_bundleid="$(PROJECT_NAME)" \
+	alfred_workflow_cache="." alfred_workflow_data="." alfred_workflow_version="0.0.1" \
+	go test ./src
+
 build: dep ## Build the binary file
 	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o workflow/$(PROJECT_NAME)-amd64 ./src
 	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME)-arm64 ./src
