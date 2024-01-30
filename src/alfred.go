@@ -138,8 +138,8 @@ func runSearch(api *jira.Client, query *parsedQuery) {
 }
 
 func runMyIssues(api *jira.Client) {
-    jql := fmt.Sprintf("assignee = '%s' AND status not in (Closed, Resolved, Done)", cfg.Username)
-    issues, err := getIssues(api, jql, 0)
+    jql := fmt.Sprintf("assignee = '%s' AND resolution = Unresolved ", cfg.Username)
+    issues, err := getIssues(api, jql, 9999)
     if err != nil {
         wf.FatalError(err)
     }
