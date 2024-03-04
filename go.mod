@@ -6,7 +6,7 @@ require (
 	github.com/andygrunwald/go-jira v1.16.0
 	github.com/deanishe/awgo v0.29.1
 	github.com/ncruces/zenity v0.10.12
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
