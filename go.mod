@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/andygrunwald/go-jira v1.16.0
 	github.com/deanishe/awgo v0.29.1
-	github.com/ncruces/zenity v0.10.11
+	github.com/ncruces/zenity v0.10.12
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -25,7 +25,7 @@ require (
 	go.deanishe.net/env v0.5.1 // indirect
 	go.deanishe.net/fuzzy v1.0.0 // indirect
 	golang.org/x/image v0.15.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
