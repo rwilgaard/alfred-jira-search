@@ -158,6 +158,11 @@ func runMyIssues(api *jira.Client) {
         i.NewModifier(aw.ModOpt).
             Subtitle(fmt.Sprintf("Created: %s  •  Updated: %s", issue.RenderedFields.Created, issue.RenderedFields.Updated))
 
+        i.NewModifier(aw.ModCtrl).
+            Subtitle("Open search results in Jira").
+            Var("action", "jql").
+            Var("jql", jql)
+
         if cfg.JiraTogglIntegration {
             i.NewModifier(aw.ModCmd).
                 Subtitle("Start Toggl").

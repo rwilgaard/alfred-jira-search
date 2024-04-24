@@ -2211,7 +2211,7 @@ This will allow you to start tracking time on an issue directly from this workfl
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.0.2</string>
+	<string>1.1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/rwilgaard/alfred-jira-search</string>
 </dict>
