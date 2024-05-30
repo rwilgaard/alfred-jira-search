@@ -190,7 +190,7 @@ func runGetProjects() {
             Var("project", strings.ReplaceAll(s.Key, " ", "_")).
             Var("project_raw", s.Key).
             Valid(true)
-        i.NewModifier(aw.ModCmd).
+        i.NewModifier(cfg.CancelModifierKey).
             Subtitle("Cancel").
             Arg("cancel")
     }
@@ -214,7 +214,7 @@ func runGetStatus() {
             Var("status", status).
             Var("status_raw", s.Name).
             Valid(true)
-        i.NewModifier(aw.ModCmd).
+        i.NewModifier(cfg.CancelModifierKey).
             Subtitle("Cancel").
             Arg("cancel")
     }
@@ -237,7 +237,7 @@ func runGetAllIssuetypes() {
             Var("issuetype", name).
             Var("issuetype_raw", i.Name).
             Valid(true)
-        i.NewModifier(aw.ModCmd).
+        i.NewModifier(cfg.CancelModifierKey).
             Subtitle("Cancel").
             Arg("cancel")
     }
@@ -265,7 +265,7 @@ func runGetAssignees(api *jira.Client) {
             Arg(prevQuery+u.Name+" ").
             Var("user", u.Name).
             Valid(true)
-        i.NewModifier(aw.ModCmd).
+        i.NewModifier(cfg.CancelModifierKey).
             Subtitle("Cancel").
             Arg("cancel")
     }

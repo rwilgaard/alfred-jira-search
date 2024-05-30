@@ -2175,6 +2175,40 @@ This will allow you to start tracking time on an issue directly from this workfl
 			<key>config</key>
 			<dict>
 				<key>default</key>
+				<string>cmd</string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>⌘ (command)</string>
+						<string>cmd</string>
+					</array>
+					<array>
+						<string>⌥ (option)</string>
+						<string>alt</string>
+					</array>
+					<array>
+						<string>⌃ (control)</string>
+						<string>ctrl</string>
+					</array>
+					<array>
+						<string>⇧ (shift)</string>
+						<string>shift</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>The modifier key used to cancel autocompletion</string>
+			<key>label</key>
+			<string>Cancel Modifier Key</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>cancel_modifier_key</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
 				<false/>
 				<key>required</key>
 				<false/>
@@ -2211,7 +2245,7 @@ This will allow you to start tracking time on an issue directly from this workfl
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.1.0</string>
+	<string>1.2.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/rwilgaard/alfred-jira-search</string>
 </dict>
