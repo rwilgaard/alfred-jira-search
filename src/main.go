@@ -176,6 +176,16 @@ func run() {
 		return
 	}
 
+	if opts.JQL {
+        wf.NewItem("Edit JQL").
+            Var("action", "jql-edit").
+            Icon(getIcon("edit")).
+            Valid(true)
+		runSearch(api, nil, opts.Query, 50)
+		wf.SendFeedback()
+		return
+	}
+
 	if opts.Create {
 		issueKey, err := createIssue(api, opts.Query, opts.Issuetype, opts.Project)
 		if err != nil {
@@ -202,7 +212,7 @@ func run() {
 		time.Sleep(500 * time.Millisecond)
 	}
 
-	runSearch(api, parsedQuery)
+	runSearch(api, parsedQuery, "", 15)
 
 	if wf.IsEmpty() {
 		wf.NewItem("No results found...").

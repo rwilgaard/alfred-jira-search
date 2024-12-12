@@ -157,11 +157,50 @@
 				<false/>
 			</dict>
 		</array>
+		<key>4934B679-A180-42BF-A209-1FB3CAE5D057</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4B6C5E4F-0B4E-4F7E-8B3C-D67725E1AFA3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4B6C5E4F-0B4E-4F7E-8B3C-D67725E1AFA3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F79AE2B6-6A34-4480-B6E4-D21DA7F594F2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>53F317BA-B0EE-4DD3-AB7A-CE9897C79557</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>726AF036-22E8-4748-BDBD-2CD7159758F7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6459EE1C-C5C5-4078-8AE8-DD60C43CFD06</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4934B679-A180-42BF-A209-1FB3CAE5D057</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -253,6 +292,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>8490DCF6-88C3-42B4-BA7C-1551713FFC08</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9D160952-35B2-41DE-9141-3C80DCFDCB13</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>353C5D19-532B-46A6-A713-A8A97A4A0F00</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -503,6 +555,30 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>684DBAB3-D4BC-45A3-8110-3C333692AAA2</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>353C5D19-532B-46A6-A713-A8A97A4A0F00</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>2E224F5A-EDCD-4730-B62D-91D8365CF025</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9D160952-35B2-41DE-9141-3C80DCFDCB13</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>CC70FA4A-36CB-4A37-AFB6-9F9EEB0DD799</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -943,11 +1019,39 @@
 						<key>matchmode</key>
 						<integer>0</integer>
 						<key>matchstring</key>
+						<string>jql-edit</string>
+						<key>outputlabel</key>
+						<string>jql-edit</string>
+						<key>uid</key>
+						<string>2E224F5A-EDCD-4730-B62D-91D8365CF025</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
 						<string>open</string>
 						<key>outputlabel</key>
 						<string>open</string>
 						<key>uid</key>
 						<string>755804B2-3220-4023-A6AC-5F2C76FEDD6C</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>error</string>
+						<key>outputlabel</key>
+						<string>error</string>
+						<key>uid</key>
+						<string>CC70FA4A-36CB-4A37-AFB6-9F9EEB0DD799</string>
 					</dict>
 				</array>
 				<key>elselabel</key>
@@ -1038,6 +1142,155 @@
 			<string>2879D4E8-09BD-4605-A285-EAD5B8D60FED</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>externaltriggerid</key>
+				<string>jql</string>
+				<key>passinputasargument</key>
+				<false/>
+				<key>passvariables</key>
+				<true/>
+				<key>workflowbundleid</key>
+				<string>self</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.callexternaltrigger</string>
+			<key>uid</key>
+			<string>353C5D19-532B-46A6-A713-A8A97A4A0F00</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>5</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>2</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching for issues</string>
+				<key>script</key>
+				<string>./alfred-jira-search -jql "$jql"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Jira JQL Search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>4B6C5E4F-0B4E-4F7E-8B3C-D67725E1AFA3</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>jq</string>
+				<key>subtext</key>
+				<string>Press ⏎ to run search: {query}</string>
+				<key>text</key>
+				<string>Jira JQL Search</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>inboundconfig</key>
+			<dict>
+				<key>custominputarg</key>
+				<string>{var:jql}</string>
+				<key>externalid</key>
+				<string>jql</string>
+				<key>usecustominputarg</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6459EE1C-C5C5-4078-8AE8-DD60C43CFD06</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>behaviour</key>
+				<integer>2</integer>
+				<key>fontmode</key>
+				<integer>0</integer>
+				<key>fontsizing</key>
+				<integer>0</integer>
+				<key>footertext</key>
+				<string>Error</string>
+				<key>inputfile</key>
+				<string></string>
+				<key>inputtype</key>
+				<integer>0</integer>
+				<key>loadingtext</key>
+				<string></string>
+				<key>outputmode</key>
+				<integer>0</integer>
+				<key>scriptinput</key>
+				<integer>0</integer>
+				<key>spellchecking</key>
+				<integer>0</integer>
+				<key>stackview</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.userinterface.text</string>
+			<key>uid</key>
+			<string>9D160952-35B2-41DE-9141-3C80DCFDCB13</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>jql</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>4934B679-A180-42BF-A209-1FB3CAE5D057</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1784,6 +2037,7 @@ A workflow to search Jira issues.
 
 - `js` is used for searching issues.
 - `ja` is used for searching issues assigned to yourself.
+- `jq` is used for searching issues using JQL.
 - `jc` is used for creating an issue with yourself as assignee.
 
 ## Actions
@@ -1791,7 +2045,7 @@ A workflow to search Jira issues.
 The following actions can be used on a highlighted repository:
 - `⏎` will open the issue in Jira.
 - `⌥` will show you additional info about the issue.
-- `⌘` + `⏎` will start a time entry in Toggl if you have enabled the **Jira Toggl Integration**.
+- `⌘` + `⏎` will start a time entry in Toggl if you have enabled the [Jira Toggl Integration](#jira-toggl-integration).
 - `⌃` + `⏎` will open all search results in Jira.
 
 ## Jira Toggl Integration
@@ -1803,23 +2057,23 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>045DEED0-3C21-453D-8C7A-4D17F7A5E7D9</key>
 		<dict>
 			<key>xpos</key>
-			<real>410</real>
+			<real>405</real>
 			<key>ypos</key>
-			<real>575</real>
+			<real>720</real>
 		</dict>
 		<key>05963405-7123-4591-AB4C-FBB6AAF9774C</key>
 		<dict>
 			<key>xpos</key>
-			<real>500</real>
+			<real>495</real>
 			<key>ypos</key>
-			<real>980</real>
+			<real>1125</real>
 		</dict>
 		<key>11A61832-1C3F-4E38-8A07-B37656952056</key>
 		<dict>
 			<key>xpos</key>
 			<real>555</real>
 			<key>ypos</key>
-			<real>330</real>
+			<real>540</real>
 		</dict>
 		<key>12944EE4-9AB1-4F66-B805-0BB07A2336EC</key>
 		<dict>
@@ -1838,9 +2092,9 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>227ECBCC-FD78-46A7-A7C8-C444FAC6DCD3</key>
 		<dict>
 			<key>xpos</key>
-			<real>540</real>
+			<real>535</real>
 			<key>ypos</key>
-			<real>635</real>
+			<real>780</real>
 		</dict>
 		<key>2879D4E8-09BD-4605-A285-EAD5B8D60FED</key>
 		<dict>
@@ -1854,23 +2108,30 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>2C218F76-7DA1-4C08-8CB9-D38D859552E2</key>
 		<dict>
 			<key>xpos</key>
-			<real>135</real>
+			<real>130</real>
 			<key>ypos</key>
-			<real>885</real>
+			<real>1030</real>
 		</dict>
 		<key>30D81CA3-C322-4DF4-B724-C5F24EB200A9</key>
 		<dict>
 			<key>xpos</key>
-			<real>410</real>
+			<real>405</real>
 			<key>ypos</key>
-			<real>725</real>
+			<real>870</real>
+		</dict>
+		<key>353C5D19-532B-46A6-A713-A8A97A4A0F00</key>
+		<dict>
+			<key>xpos</key>
+			<real>555</real>
+			<key>ypos</key>
+			<real>330</real>
 		</dict>
 		<key>3AD35884-C94D-4107-8495-A05CAB7E1AB6</key>
 		<dict>
 			<key>xpos</key>
-			<real>675</real>
+			<real>670</real>
 			<key>ypos</key>
-			<real>855</real>
+			<real>1000</real>
 		</dict>
 		<key>3B2EC56D-413E-4830-A42C-B40AB7DF65CA</key>
 		<dict>
@@ -1886,12 +2147,26 @@ This will allow you to start tracking time on an issue directly from this workfl
 			<key>ypos</key>
 			<real>15</real>
 		</dict>
+		<key>4934B679-A180-42BF-A209-1FB3CAE5D057</key>
+		<dict>
+			<key>xpos</key>
+			<real>280</real>
+			<key>ypos</key>
+			<real>440</real>
+		</dict>
+		<key>4B6C5E4F-0B4E-4F7E-8B3C-D67725E1AFA3</key>
+		<dict>
+			<key>xpos</key>
+			<real>335</real>
+			<key>ypos</key>
+			<real>410</real>
+		</dict>
 		<key>53F317BA-B0EE-4DD3-AB7A-CE9897C79557</key>
 		<dict>
 			<key>xpos</key>
-			<real>135</real>
+			<real>130</real>
 			<key>ypos</key>
-			<real>735</real>
+			<real>880</real>
 		</dict>
 		<key>5523F44B-B25B-4263-B182-8DA4C8FF1214</key>
 		<dict>
@@ -1900,12 +2175,21 @@ This will allow you to start tracking time on an issue directly from this workfl
 			<key>ypos</key>
 			<real>225</real>
 		</dict>
+		<key>6459EE1C-C5C5-4078-8AE8-DD60C43CFD06</key>
+		<dict>
+			<key>note</key>
+			<string>Search for issues with JQL</string>
+			<key>xpos</key>
+			<real>135</real>
+			<key>ypos</key>
+			<real>410</real>
+		</dict>
 		<key>6E9B36E6-CBD9-4FCB-91DB-DC698490F246</key>
 		<dict>
 			<key>xpos</key>
-			<real>675</real>
+			<real>670</real>
 			<key>ypos</key>
-			<real>1005</real>
+			<real>1150</real>
 		</dict>
 		<key>7130D88F-D18B-4C5F-AF53-B8D0F0D89B9D</key>
 		<dict>
@@ -1919,23 +2203,23 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>726AF036-22E8-4748-BDBD-2CD7159758F7</key>
 		<dict>
 			<key>xpos</key>
-			<real>205</real>
+			<real>200</real>
 			<key>ypos</key>
-			<real>735</real>
+			<real>880</real>
 		</dict>
 		<key>75EE5365-6F12-46ED-BB69-407AD50DDDA9</key>
 		<dict>
 			<key>xpos</key>
-			<real>535</real>
+			<real>530</real>
 			<key>ypos</key>
-			<real>1085</real>
+			<real>1230</real>
 		</dict>
 		<key>7AF44469-23B0-4208-80E2-BD22FEBE169E</key>
 		<dict>
 			<key>xpos</key>
-			<real>535</real>
+			<real>530</real>
 			<key>ypos</key>
-			<real>785</real>
+			<real>930</real>
 		</dict>
 		<key>8490DCF6-88C3-42B4-BA7C-1551713FFC08</key>
 		<dict>
@@ -1949,18 +2233,18 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>865F4AAA-0361-4C30-9574-1733AE2AEDB2</key>
 		<dict>
 			<key>xpos</key>
-			<real>675</real>
+			<real>670</real>
 			<key>ypos</key>
-			<real>555</real>
+			<real>700</real>
 		</dict>
 		<key>932981E3-712A-40A8-A8B0-BCC28179A886</key>
 		<dict>
 			<key>note</key>
 			<string>Select user</string>
 			<key>xpos</key>
-			<real>265</real>
+			<real>260</real>
 			<key>ypos</key>
-			<real>1005</real>
+			<real>1150</real>
 		</dict>
 		<key>96495633-8E86-4050-A713-15DDF7453DDC</key>
 		<dict>
@@ -1976,42 +2260,49 @@ This will allow you to start tracking time on an issue directly from this workfl
 			<key>ypos</key>
 			<real>120</real>
 		</dict>
+		<key>9D160952-35B2-41DE-9141-3C80DCFDCB13</key>
+		<dict>
+			<key>xpos</key>
+			<real>555</real>
+			<key>ypos</key>
+			<real>435</real>
+		</dict>
 		<key>A50F2F74-4C33-4922-B1A0-6272DD66508A</key>
 		<dict>
 			<key>xpos</key>
-			<real>500</real>
+			<real>495</real>
 			<key>ypos</key>
-			<real>830</real>
+			<real>975</real>
 		</dict>
 		<key>A5A6D02D-1038-4DFE-9EE2-F33A209C4A59</key>
 		<dict>
 			<key>xpos</key>
-			<real>675</real>
+			<real>670</real>
 			<key>ypos</key>
-			<real>705</real>
+			<real>850</real>
 		</dict>
 		<key>AE5A52F9-4FC8-42CA-B044-80040720FF3D</key>
 		<dict>
 			<key>xpos</key>
-			<real>135</real>
+			<real>130</real>
 			<key>ypos</key>
-			<real>585</real>
+			<real>730</real>
 		</dict>
 		<key>B5FD510B-E59E-4AE5-A91C-296E1AA79599</key>
 		<dict>
 			<key>xpos</key>
-			<real>205</real>
+			<real>200</real>
 			<key>ypos</key>
-			<real>1035</real>
+			<real>1180</real>
 		</dict>
 		<key>C0C4FA3D-8732-426D-B5AB-D775D59770E9</key>
 		<dict>
 			<key>note</key>
 			<string>Select status</string>
 			<key>xpos</key>
-			<real>265</real>
+			<real>260</real>
 			<key>ypos</key>
-			<real>855</real>
+			<real>1000</real>
 		</dict>
 		<key>C3B194B7-86A6-4BA6-801C-CF5403F03213</key>
 		<dict>
@@ -2030,39 +2321,39 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>CE693E36-5C29-4B47-86BA-29469532932E</key>
 		<dict>
 			<key>note</key>
-			<string>Search for issues</string>
+			<string>Search issues assigned to you</string>
 			<key>xpos</key>
 			<real>135</real>
 			<key>ypos</key>
-			<real>140</real>
+			<real>130</real>
 		</dict>
 		<key>CF1AF85F-DB34-47E2-865C-4E4587492D19</key>
 		<dict>
 			<key>xpos</key>
-			<real>500</real>
+			<real>495</real>
 			<key>ypos</key>
-			<real>680</real>
+			<real>825</real>
 		</dict>
 		<key>D13DA6E2-179A-4A06-B940-4812BD4BD64F</key>
 		<dict>
 			<key>xpos</key>
-			<real>205</real>
+			<real>200</real>
 			<key>ypos</key>
-			<real>585</real>
+			<real>730</real>
 		</dict>
 		<key>D3B111AC-7AE3-4A63-88AD-08B43A44A4AA</key>
 		<dict>
 			<key>xpos</key>
-			<real>205</real>
+			<real>200</real>
 			<key>ypos</key>
-			<real>885</real>
+			<real>1030</real>
 		</dict>
 		<key>D7E9AD21-3BD5-4215-B741-26377FBDFAE0</key>
 		<dict>
 			<key>xpos</key>
-			<real>135</real>
+			<real>130</real>
 			<key>ypos</key>
-			<real>1035</real>
+			<real>1180</real>
 		</dict>
 		<key>DB94331F-213B-4356-8B3C-CC3809C33631</key>
 		<dict>
@@ -2076,55 +2367,55 @@ This will allow you to start tracking time on an issue directly from this workfl
 		<key>E990FFCB-F76A-4EB3-8DC8-304FF6ED9236</key>
 		<dict>
 			<key>xpos</key>
-			<real>410</real>
+			<real>405</real>
 			<key>ypos</key>
-			<real>875</real>
+			<real>1020</real>
 		</dict>
 		<key>ECAB289D-6050-44CF-92C0-B1D1171175DE</key>
 		<dict>
 			<key>note</key>
 			<string>Select issuetype</string>
 			<key>xpos</key>
-			<real>265</real>
+			<real>260</real>
 			<key>ypos</key>
-			<real>705</real>
+			<real>850</real>
 		</dict>
 		<key>F4294E22-F618-4DBD-B79F-4DC2757CD0BF</key>
 		<dict>
 			<key>note</key>
 			<string>Select project</string>
 			<key>xpos</key>
-			<real>265</real>
+			<real>260</real>
 			<key>ypos</key>
-			<real>555</real>
+			<real>700</real>
 		</dict>
 		<key>F4873738-0076-4F42-962B-6B6954F5D330</key>
 		<dict>
 			<key>xpos</key>
-			<real>500</real>
+			<real>495</real>
 			<key>ypos</key>
-			<real>530</real>
+			<real>675</real>
 		</dict>
 		<key>F49EB85D-1D7B-4CF2-A4E0-0B832DEFA9DC</key>
 		<dict>
 			<key>xpos</key>
-			<real>535</real>
+			<real>530</real>
 			<key>ypos</key>
-			<real>935</real>
+			<real>1080</real>
 		</dict>
 		<key>F79AE2B6-6A34-4480-B6E4-D21DA7F594F2</key>
 		<dict>
 			<key>xpos</key>
 			<real>355</real>
 			<key>ypos</key>
-			<real>200</real>
+			<real>195</real>
 		</dict>
 		<key>FD7A26D3-0D2E-42C8-BDE4-A27D4E77B703</key>
 		<dict>
 			<key>xpos</key>
-			<real>410</real>
+			<real>405</real>
 			<key>ypos</key>
-			<real>1025</real>
+			<real>1170</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -2245,7 +2536,7 @@ This will allow you to start tracking time on an issue directly from this workfl
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.2.0</string>
+	<string>1.3.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/rwilgaard/alfred-jira-search</string>
 </dict>
