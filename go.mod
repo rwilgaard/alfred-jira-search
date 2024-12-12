@@ -1,6 +1,8 @@
 module github.com/rwilgaard/alfred-jira-search
 
-go 1.21
+go 1.23.1
+
+toolchain go1.23.4
 
 require (
 	github.com/andygrunwald/go-jira v1.16.0
@@ -12,7 +14,7 @@ require (
 require (
 	github.com/akavel/rsrc v0.10.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/dchest/jsmin v0.0.0-20220218165748-59f39799265f // indirect
+	github.com/dchest/jsmin v1.0.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
@@ -24,8 +26,8 @@ require (
 	github.com/trivago/tgo v1.0.7 // indirect
 	go.deanishe.net/env v0.5.1 // indirect
 	go.deanishe.net/fuzzy v1.0.0 // indirect
-	golang.org/x/image v0.20.0 // indirect
-	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/image v0.23.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
