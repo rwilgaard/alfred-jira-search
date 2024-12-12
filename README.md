@@ -12,6 +12,7 @@ A workflow to search Jira issues.
 
 - `js` is used for searching issues.
 - `ja` is used for searching issues assigned to yourself.
+- `jq` is used for searching issues using JQL.
 - `jc` is used for creating an issue with yourself as assignee.
 
 ## Actions
