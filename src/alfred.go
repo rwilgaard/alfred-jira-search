@@ -197,7 +197,7 @@ func runGetProjects() {
 		}
 	}
 
-	prevQuery, _ := wf.Config.Env.Lookup("prev_query")
+	prevQuery, _ := wf.Config.Lookup("prev_query")
 
 	for _, s := range projectCache {
 		i := wf.NewItem(s.Key).
@@ -221,7 +221,7 @@ func runGetStatus() {
 		}
 	}
 
-	prevQuery, _ := wf.Config.Env.Lookup("prev_query")
+	prevQuery, _ := wf.Config.Lookup("prev_query")
 
 	for _, s := range statusCache {
 		status := strings.ReplaceAll(s.Name, " ", "_")
@@ -245,7 +245,7 @@ func runGetAllIssuetypes() {
 		}
 	}
 
-	prevQuery, _ := wf.Config.Env.Lookup("prev_query")
+	prevQuery, _ := wf.Config.Lookup("prev_query")
 
 	for _, i := range issuetypeCache {
 		name := strings.ReplaceAll(i.Name, " ", "_")
@@ -262,7 +262,7 @@ func runGetAllIssuetypes() {
 }
 
 func runGetAssignees(api *jira.Client) {
-	prevQuery, _ := wf.Config.Env.Lookup("prev_query")
+	prevQuery, _ := wf.Config.Lookup("prev_query")
 	var users []jira.User
 	var err error
 
