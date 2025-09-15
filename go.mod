@@ -3,7 +3,7 @@ module github.com/rwilgaard/alfred-jira-search
 go 1.24.5
 
 require (
-	github.com/andygrunwald/go-jira v1.16.0
+	github.com/andygrunwald/go-jira v1.16.1
 	github.com/deanishe/awgo v0.29.1
 	github.com/ncruces/zenity v0.10.14
 	github.com/stretchr/testify v1.10.0
